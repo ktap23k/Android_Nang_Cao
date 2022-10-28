@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/screen/pages/sign_up/sign_up3.dart';
@@ -5,6 +7,8 @@ import 'package:linkedin_clone/size_config.dart';
 
 import '../../../../constants.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
+import 'package:http/http.dart' as http;
+import 'package:email_validator/email_validator.dart';
 
 class SignUp2 extends StatelessWidget {
   final email = TextEditingController();
@@ -70,11 +74,40 @@ class SignUp2 extends StatelessWidget {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                       side: BorderSide(color: kPrimaryColor)))),
-                      onPressed: () {
-                        globals.email = email.text;
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => SignUp3(),
-                        ));
+                      onPressed: () async {
+                        try {
+                          assert(EmailValidator.validate(email.text));
+
+                          globals.email = email.text;
+
+                          var headers = {'Content-Type': 'application/json'};
+                          var request = http.Request('POST',
+                              Uri.parse('https://cvnl.me/uuid/v1/user/create'));
+                          request.body = json.encode(
+                              {"account": globals.email, "hash": "check"});
+                          request.headers.addAll(headers);
+
+                          http.StreamedResponse response = await request.send();
+
+                          if (response.statusCode == 200) {
+                            var value = await response.stream.bytesToString();
+                            print(value);
+                            Map valueMap = json.decode(value);
+                            if (valueMap['error']) {
+                              print("email exits!");
+                            } else {
+                              globals.uuid = valueMap['data']['userInfo']['id'];
+                              print("uuid: " + globals.uuid);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => SignUp3(),
+                              ));
+                            }
+                          } else {
+                            print(response.reasonPhrase);
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
                       },
                       child: Text(
                         "Continue",

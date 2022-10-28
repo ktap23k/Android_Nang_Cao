@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   http: ^0.13.5
   path_provider: ^2.0.10
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

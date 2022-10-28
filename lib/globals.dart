@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 String userName = '';
 String userFristName = '';
 String email = '';
+String uuid = '';
 
 bool isLoggedIn = false;
 String token = '';

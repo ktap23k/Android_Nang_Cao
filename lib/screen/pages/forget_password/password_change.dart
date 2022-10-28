@@ -10,7 +10,8 @@ import '../../../../constants.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 
-class SignUp3 extends StatelessWidget {
+class ChangePassword extends StatelessWidget {
+  final token = TextEditingController();
   final password = TextEditingController();
   final repassword = TextEditingController();
 
@@ -18,6 +19,7 @@ class SignUp3 extends StatelessWidget {
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the _printLatestValue listener.
+    token.dispose();
     password.dispose();
     repassword.dispose();
   }
@@ -57,6 +59,12 @@ class SignUp3 extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 50,
+                  ),
+                  TextFormField(
+                      decoration: InputDecoration(hintText: "Token"),
+                      controller: token),
+                  SizedBox(
+                    height: 20,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -138,28 +146,24 @@ class SignUp3 extends StatelessWidget {
                                       side: BorderSide(color: kPrimaryColor)))),
                       onPressed: () async {
                         var headers = {'Content-Type': 'application/json'};
-
-                        var request = http.Request('POST',
-                            Uri.parse('http://14.225.254.142:9000/register'));
-                        request.body = json.encode({
-                          "email": globals.email,
-                          "idfv": globals.uuid,
-                          "name":
-                              "${globals.userFristName} ${globals.userName}",
-                          "password": password.text
-                        });
+                        var request = http.Request(
+                            'POST',
+                            Uri.parse(
+                                'http://14.225.254.142:9000/password/change'));
+                        request.body = json.encode(
+                            {"token": token.text, "password": password.text});
                         request.headers.addAll(headers);
 
-                        http.StreamedResponse response2 = await request.send();
+                        http.StreamedResponse response = await request.send();
+                        if (response.statusCode == 200) {
+                          print(response.reasonPhrase);
+                          print(await response.stream.bytesToString());
 
-                        if (response2.statusCode == 200) {
-                          print(response2.reasonPhrase);
-                          print(await response2.stream.bytesToString());
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) => MobileScreen(),
                           ));
                         } else {
-                          print(response2.reasonPhrase);
+                          print("Error: " + response.reasonPhrase);
                         }
                       },
                       child: Text(
