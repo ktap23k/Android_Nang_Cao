@@ -9,6 +9,8 @@ String userName = '';
 String userFristName = '';
 String email = '';
 String uuid = '';
+String age = '';
+String gender = '';
 
 bool isLoggedIn = false;
 String token = '';
