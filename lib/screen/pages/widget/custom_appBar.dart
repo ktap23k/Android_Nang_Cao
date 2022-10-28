@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomAppBar extends StatelessWidget {
             children: [
 
 
-              Align(
+             Align(
                 alignment: Alignment.center,
                 child: Container(
                   height: 33,
@@ -31,8 +32,25 @@ class CustomAppBar extends StatelessWidget {
                     // border: Border.all(color: Colors.white,width: 2),
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: Center(child: Text("c",style: TextStyle(fontSize: 20,color: Colors.white),)),
+                  child: ElevatedButton(
+
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      side: BorderSide()
+                                  )
+                              )
+                          ),
+                          onPressed: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => Setting(),
+                              )),
+                  child: Center(
+                    child: Text("c",style: TextStyle(fontSize: 20,color: Colors.white),)),
                 ),
+              ),
               ),
 
 
