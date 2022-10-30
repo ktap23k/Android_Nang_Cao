@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
-import 'package:linkedin_clone/screen/cv/edit_cv.dart';
+
 import 'package:linkedin_clone/screen/pages/home.dart';
 import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
 import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
@@ -10,7 +10,10 @@ import 'package:linkedin_clone/screen/pages/widget/Custom_Buttons.dart';
 import 'package:linkedin_clone/screen/pages/widget/custom_appBar.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import '../../size_config.dart';
+import '../../../size_config.dart';
+import 'edit_cv.dart';
+
+
 
 class CreateCV extends StatefulWidget {
   @override

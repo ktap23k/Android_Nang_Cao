@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
-import 'package:linkedin_clone/screen/cv/create_cv.dart';
 import 'package:linkedin_clone/screen/pages/home.dart';
 import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
 import 'package:linkedin_clone/size_config.dart';
+
+import 'create_cv.dart';
 
 class EditCV extends StatelessWidget {
   final _post = Data.postList;
