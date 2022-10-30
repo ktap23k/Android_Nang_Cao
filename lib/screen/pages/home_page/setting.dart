@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
+import 'package:linkedin_clone/screen/pages/splash_screens/components/splash_screen.dart';
 //import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/size_config.dart';
+import 'package:linkedin_clone/globals.dart' as globals;
 
 class Setting extends StatefulWidget {
   @override
@@ -74,10 +76,10 @@ class _SettingState extends State<Setting> {
                             //side: BorderSide(color: Colors.black)
                           ))),
                       onPressed: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //   builder: (BuildContext context) => HomeScreen(),
-                            // ));
-                            },
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (BuildContext context) => HomeScreen(),
+                        // ));
+                      },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -112,7 +114,7 @@ class _SettingState extends State<Setting> {
                             borderRadius: BorderRadius.circular(15.0),
                             //side: BorderSide(color: Colors.black)
                           ))),
-                      onPressed: () {  },
+                      onPressed: () {},
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -146,7 +148,7 @@ class _SettingState extends State<Setting> {
                             borderRadius: BorderRadius.circular(15.0),
                             //side: BorderSide(color: Colors.black)
                           ))),
-                      onPressed: () {  },
+                      onPressed: () {},
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -180,7 +182,18 @@ class _SettingState extends State<Setting> {
                             borderRadius: BorderRadius.circular(15.0),
                             //side: BorderSide(color: Colors.black)
                           ))),
-                      onPressed: () {  },
+                      onPressed: () async {
+                        Map valueMap = {};
+                        valueMap['isLoggedIn'] = false;
+                        valueMap['token'] = null;
+
+                        await globals.storage
+                            .writeCounter('login.json', valueMap);
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => SplashScreen(),
+                        ));
+                      },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
