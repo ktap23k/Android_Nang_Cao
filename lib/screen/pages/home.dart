@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin_clone/screen/cv/create_cv.dart';
 import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
+import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class MobileScreen extends StatefulWidget {
@@ -13,7 +15,7 @@ class _MobileScreenState extends State<MobileScreen> {
   final List<Widget> _children = [
     HomeScreen(),
     HomeScreen(),
-    HomeScreen(),
+    CreateCV(),
     HomeScreen(),
     HomeScreen(),
 
