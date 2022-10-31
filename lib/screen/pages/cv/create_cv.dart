@@ -13,8 +13,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../size_config.dart';
 import 'edit_cv.dart';
 
-
-
 class CreateCV extends StatefulWidget {
   @override
   _CreateCVScreenState createState() => _CreateCVScreenState();
@@ -65,218 +63,222 @@ class _CreateCVScreenState extends State<CreateCV> {
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
         builder: (BuildContext context, SizingInformation sizingInformation) {
-      return Container(
-        color: Colors.white,
-        //color: Colors.black12,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 30,
-                  width: 15,),
-                
-
-                Container(
-                  height: 30,
-                  width: 100,
-                  color: Colors.white,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                    ),
-                    onPressed: () =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => MobileScreen(),
-                    )),
-                    child: Text(
-                      "Back",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(18),
-                        color: Colors.black,
-                      ),
-                    ),
+      return SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          //color: Colors.black12,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 15,
                   ),
-                ),
-                Container(
-                  height: 30,
-                  width: 180,
-                ),
-
-                Container(
-                  height: 30,
-                  width: 100,
-                  color: Colors.white,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
+                  Container(
+                    height: 30,
+                    width: 100,
+                    color: Colors.white,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.white),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder())),
-                    onPressed: () =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => EditCV(),
-                    )),
-                    child: Text(
-                      "Edit",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(18),
-                        color: Colors.black,
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => MobileScreen(),
+                      )),
+                      child: Text(
+                        "Back",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(18),
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-              margin: EdgeInsets.only(bottom: 0.0, top: 8),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                      top: BorderSide(color: Colors.black54, width: 0.50),
-                      bottom: BorderSide(color: Colors.black54, width: 0.50))),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 250,
-                        decoration: BoxDecoration(
-                            // borderRadius: BorderRadius.all(Radius.circular(0)),
-                            image: DecorationImage(
-                                image: AssetImage(_post[1].profileUrl))),
-                      ),
-                      SizedBox(
-                        width: 24,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Professions", // thay luôn vào
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Gender: ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Date of birth: ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Mobile: ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Email: ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Adress: ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                      )
-                    ],
+                  Container(
+                    height: 30,
+                    width: 180,
                   ),
-                  Text(
-                    "Education",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Divider(
-                    thickness: 1.50,
-                    color: Colors.black26,
-                  ),
-                  Text(
-                    _post[1].tags,
-                    style: TextStyle(color: kPrimaryColor),
-                  ),
-                  SizedBox(
-                    height: 70,
-                  ),
-                  Text(
-                    "Work Experiences",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Divider(
-                    thickness: 1.50,
-                    color: Colors.black26,
-                  ),
-                  Text(
-                    _post[1].tags,
-                    style: TextStyle(color: kPrimaryColor),
-                  ),
-                  SizedBox(
-                    height: 70,
-                  ),
-                  Text(
-                    "Interests",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  ),
-                  Divider(
-                    thickness: 1.50,
-                    color: Colors.black26,
-                  ),
-                  Text(
-                    _post[1].tags,
-                    style: TextStyle(color: kPrimaryColor),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [],
+                  Container(
+                    height: 30,
+                    width: 100,
+                    color: Colors.white,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.white),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder())),
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => EditCV(),
+                      )),
+                      child: Text(
+                        "Edit",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(18),
+                          color: Colors.black,
                         ),
                       ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 0.50,
-                    color: Colors.black26,
-                  ),
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                margin: EdgeInsets.only(bottom: 0.0, top: 8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                        top: BorderSide(color: Colors.black54, width: 0.50),
+                        bottom:
+                            BorderSide(color: Colors.black54, width: 0.50))),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 250,
+                          decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.all(Radius.circular(0)),
+                              image: DecorationImage(
+                                  image: AssetImage(_post[1].profileUrl))),
+                        ),
+                        SizedBox(
+                          width: 24,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Name",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Professions", // thay luôn vào
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Gender: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Date of birth: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Mobile: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Email: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Adress: ",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Text(
+                      "Education",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      thickness: 1.50,
+                      color: Colors.black26,
+                    ),
+                    Text(
+                      _post[1].tags,
+                      style: TextStyle(color: kPrimaryColor),
+                    ),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    Text(
+                      "Work Experiences",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(
+                      thickness: 1.50,
+                      color: Colors.black26,
+                    ),
+                    Text(
+                      _post[1].tags,
+                      style: TextStyle(color: kPrimaryColor),
+                    ),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    Text(
+                      "Interests",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                    Divider(
+                      thickness: 1.50,
+                      color: Colors.black26,
+                    ),
+                    Text(
+                      _post[1].tags,
+                      style: TextStyle(color: kPrimaryColor),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 0.50,
+                      color: Colors.black26,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
     });

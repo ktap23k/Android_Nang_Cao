@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/screen/pages/forget_password/forget_password.dart';
-import 'package:linkedin_clone/screen/pages/sign_in/token.dart';
+import 'package:linkedin_clone/screen/pages/sign_up/sign_up1.dart';
 import '../home.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
@@ -53,11 +52,24 @@ class _SignInState extends State<SignIn> {
                     width: 30,
                     height: 30,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      "Join now",
-                      style: TextStyle(color: kPrimaryColor, fontSize: 16),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 10),
+                  //   child: Text(
+                  //     "Join now",
+                  //     style: TextStyle(color: kPrimaryColor, fontSize: 16),
+                  //   ),
+                  // ),
+
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => SignUp(),
+                    )),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(
+                        "Join now",
+                        style: TextStyle(color: kPrimaryColor, fontSize: 16),
+                      ),
                     ),
                   )
                 ],
