@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:linkedin_clone/screen/pages/sign_in/token.dart';
 import '../home.dart';
 import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
 import 'package:linkedin_clone/size_config.dart';
@@ -156,7 +157,7 @@ class SignUp3 extends StatelessWidget {
                           print(response2.reasonPhrase);
                           print(await response2.stream.bytesToString());
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MobileScreen(),
+                            builder: (BuildContext context) => Token(),
                           ));
                         } else {
                           print(response2.reasonPhrase);

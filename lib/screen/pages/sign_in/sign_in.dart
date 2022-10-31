@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/screen/pages/forget_password/forget_password.dart';
+import 'package:linkedin_clone/screen/pages/sign_in/token.dart';
 import '../home.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
@@ -190,7 +191,7 @@ class _SignInState extends State<SignIn> {
                             print('${valueMap}');
 
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => MobileScreen(),
+                              builder: (BuildContext context) => Token(),
                             ));
                           } else {
                             print("response: " + response.reasonPhrase);
