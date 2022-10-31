@@ -69,67 +69,38 @@ class _CreateCVScreenState extends State<CreateCV> {
           //color: Colors.black12,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Container(
-                    height: 30,
-                    width: 15,
+              Container(
+                child: AppBar(
+                  title: Text("Home"),
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.chevron_left_rounded,
+                      size: 30,
+                    ),
+                    onPressed: () =>
+                        Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => MobileScreen(),
+                    )),
                   ),
-                  Container(
-                    height: 30,
-                    width: 100,
-                    color: Colors.white,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => MobileScreen(),
-                      )),
-                      child: Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(18),
-                          color: Colors.black,
+                  actions: [
+                    Visibility(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.more_vert_outlined,
+                          size: 30,
                         ),
+                        onPressed: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => EditCV(),
+                        )),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: 180,
-                  ),
-                  Container(
-                    height: 30,
-                    width: 100,
-                    color: Colors.white,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder())),
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => EditCV(),
-                      )),
-                      child: Text(
-                        "Edit",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(18),
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                  ],
+                ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                margin: EdgeInsets.only(bottom: 0.0, top: 8),
+                margin: EdgeInsets.only(bottom: 0.0, top: 0),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border(
