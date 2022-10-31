@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
-import 'package:linkedin_clone/screen/job/job_detail.dart';
+
 import 'package:linkedin_clone/screen/pages/home.dart';
 import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
+import 'package:linkedin_clone/screen/pages/job/job_detail.dart';
 //import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/size_config.dart';
 
