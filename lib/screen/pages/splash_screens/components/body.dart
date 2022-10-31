@@ -95,10 +95,15 @@ class _BodyState extends State<Body> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => SignUp(),
-                        )),
+                        onPressed: () async {
+                          Map valueMap = {"isLoggedIn": false, "token": null};
+                          await globals.storage
+                              .writeCounter('login.json', valueMap);
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => SignUp(),
+                          ));
+                        },
                         child: Text(
                           "Join now",
                           style: TextStyle(

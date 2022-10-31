@@ -1,21 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/screen/pages/home.dart';
-import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
+import 'package:linkedin_clone/screen/pages/sign_in/sign_in.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 class Token extends StatelessWidget {
-  final userName = TextEditingController();
-  final userFirstName = TextEditingController();
+  final token = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the _printLatestValue listener.
-    userName.dispose();
-    userFirstName.dispose();
+    token.dispose();
   }
 
   @override
@@ -56,6 +57,7 @@ class Token extends StatelessWidget {
                   TextFormField(
                     //controller: emailAddressController,
                     obscureText: false,
+                    controller: token,
                     decoration: InputDecoration(
                       labelText: 'Token',
                       //labelStyle: FlutterFlowTheme.of(context).bodyText1,
@@ -112,12 +114,30 @@ class Token extends StatelessWidget {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                       side: BorderSide(color: kPrimaryColor)))),
-                      onPressed: () {
-                        globals.userName = userName.text;
-                        globals.userFristName = userFirstName.text;
+                      onPressed: () async {
+                        var headers = {'Content-Type': 'application/json'};
+                        var request = http.Request(
+                            'POST',
+                            Uri.parse(
+                                'http://14.225.254.142:9000/register/verify'));
+                        request.body = json.encode(
+                            {"email": globals.email, "token": token.text});
+                        request.headers.addAll(headers);
+
+                        http.StreamedResponse response = await request.send();
+
+                        if (response.statusCode == 200) {
+                          var value = await response.stream.bytesToString();
+                          Map valueMap = json.decode(value);
+                          valueMap['isLoggedIn'] = false;
+                          await globals.storage
+                              .writeCounter('login.json', valueMap);
+                        } else {
+                          print(response.reasonPhrase);
+                        }
 
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => MobileScreen(),
+                          builder: (BuildContext context) => SignIn(),
                         ));
                       },
                       child: Text(
