@@ -27,33 +27,26 @@ class EditCV extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Row(children: [
                     Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            image: DecorationImage(
-                                image: AssetImage(_post[1].profileUrl))),
-                      ),
-
-                      Container(
-                        width: 60,
-                        height: 30,),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          image: DecorationImage(
+                              image: AssetImage(_post[1].profileUrl))),
+                    ),
                     Container(
-                      
+                      width: 60,
+                      height: 30,
+                    ),
+                    Container(
                       child: Text(
-                    "Edit your CV",
-                    style: TextStyle(color: Colors.black, fontSize: 30),
-                  ),
+                        "Edit your CV",
+                        style: TextStyle(color: Colors.black, fontSize: 30),
+                      ),
                     ),
                   ]),
-
-
-
-
-
                   SizedBox(
                     height: 30,
                   ),
@@ -235,10 +228,7 @@ class EditCV extends StatelessWidget {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => CreateCV(),
-                        )),
+                        onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                           "Cancel",
                           style: TextStyle(
