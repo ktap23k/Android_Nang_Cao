@@ -133,6 +133,7 @@ class Token extends StatelessWidget {
                           await globals.storage
                               .writeCounter('login.json', valueMap);
                         } else {
+                          // xử lí popup sai token
                           print(response.reasonPhrase);
                         }
 

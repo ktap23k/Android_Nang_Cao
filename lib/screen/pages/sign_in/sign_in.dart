@@ -202,10 +202,204 @@ class _SignInState extends State<SignIn> {
                             globals.token = valueMap['token'];
                             print('${valueMap}');
 
+                            print('token: ${globals.token}');
+                            var headers = {
+                              'Authorization': 'Bearer ${globals.token}',
+                              'Content-Type': 'application/json'
+                            };
+                            var request = http.Request(
+                                'GET',
+                                Uri.parse(
+                                    'http://14.225.254.142:9000/profile'));
+                            request.body = json.encode({});
+                            request.headers.addAll(headers);
+
+                            http.StreamedResponse response_ =
+                                await request.send();
+
+                            // get proflie
+                            if (response_.statusCode == 200) {
+                              var value =
+                                  await response_.stream.bytesToString();
+                              globals.profile = json.decode(value)['result'];
+                              print(globals.profile);
+                            } else {
+                              print('Profile err: ${response_.reasonPhrase}');
+                            }
+
+                            request = http.Request('GET',
+                                Uri.parse('http://14.225.254.142:9000/cv/get'));
+                            request.body = json.encode({});
+                            request.headers.addAll(headers);
+
+                            http.StreamedResponse response_1 =
+                                await request.send();
+
+                            // get cv
+                            if (response_1.statusCode == 200) {
+                              var value =
+                                  await response_1.stream.bytesToString();
+                              globals.cv = json.decode(value)['result'];
+
+                              for (final i in globals.cv['job_user_info']) {
+                                request = http.Request(
+                                    'GET',
+                                    Uri.parse(
+                                        'http://14.225.254.142:9000/get/image'));
+                                request.body = json.encode(
+                                    {"job_user_id": "${i['job_user_id']}"});
+                                request.headers.addAll(headers);
+
+                                http.StreamedResponse response_2 =
+                                    await request.send();
+
+                                if (response_2.statusCode == 200) {
+                                  var value =
+                                      await response_2.stream.bytesToString();
+                                  Map img = json.decode(value)['result'];
+                                  globals.cv['job_user_info'][globals
+                                          .cv['job_user_info']
+                                          .indexOf(i)]['img_link'] =
+                                      '${img['source']}';
+                                  print('url : ${img['source']}');
+                                } else {
+                                  print(response_2.reasonPhrase);
+                                }
+                              }
+                            } else {
+                              // xu li data null cho cv
+                              globals.cv = globals.cv_fake;
+                              print('Cv null : ${response_1.reasonPhrase}');
+                            }
+
+                            // get image and name user post job
+                            for (final i in globals.finds['result']) {
+                              try {
+                                var headers = {
+                                  'Authorization': 'Bearer ${globals.token}',
+                                  'Content-Type': 'application/json'
+                                };
+                                var request = http.Request(
+                                    'GET',
+                                    Uri.parse(
+                                        'http://14.225.254.142:9000/get/image'));
+                                request.body = json.encode({
+                                  "job_user_id": "0",
+                                  "user_id": "${i['user']}"
+                                });
+                                request.headers.addAll(headers);
+
+                                http.StreamedResponse response =
+                                    await request.send();
+
+                                if (response.statusCode == 200) {
+                                  var value =
+                                      await response.stream.bytesToString();
+                                  Map values = json.decode(value)['result'];
+                                  globals.finds['result']
+                                          [globals.finds['result'].indexOf(i)]
+                                      ['em_name'] = '${values['name']}';
+                                  var url =
+                                      "https://androidtuan.s3.amazonaws.com/img/3d953570-acb6-4fc6-90d0-abfc9d617c67.jpg";
+                                  if (values['source'] != "") {
+                                    url =
+                                        'https://androidtuan.s3.amazonaws.com/${values['source']}';
+                                  }
+                                  globals.finds['result']
+                                          [globals.finds['result'].indexOf(i)]
+                                      ['url_profile'] = url;
+                                } else {
+                                  print(response.reasonPhrase);
+                                }
+                              } catch (e) {
+                                print("error get profile job");
+                              }
+                            }
+                            for (final i in globals.finds['result']) {
+                              print("data finds: $i");
+                            }
+
+                            // get list jobs recruiment
+                            if (globals.cv['cv']['cv_id'] != 0) {
+                              try {
+                                var headers = {
+                                  'Content-Type': 'application/json'
+                                };
+                                var request = http.Request(
+                                    'GET',
+                                    Uri.parse(
+                                        'http://14.225.254.142:9000/recruitment/get'));
+                                request.body = json.encode(
+                                    {"cv": "${globals.cv['cv']['cv_id']}"});
+                                request.headers.addAll(headers);
+
+                                http.StreamedResponse response =
+                                    await request.send();
+
+                                if (response.statusCode == 200) {
+                                  var value =
+                                      await response.stream.bytesToString();
+                                  globals.recruiment = json.decode(value);
+                                  print(globals.recruiment);
+                                } else {
+                                  print(response.reasonPhrase);
+                                  globals.recruiment = null;
+                                }
+                              } catch (e) {
+                                print("Err ---recruiment");
+                                globals.recruiment = null;
+                              }
+
+                              try {
+                                if (globals.recruiment != null) {
+                                  globals.list_job = {};
+                                  for (final i
+                                      in globals.recruiment['result']) {
+                                    var headers = {
+                                      'Content-Type': 'application/json'
+                                    };
+                                    var request = http.Request(
+                                        'GET',
+                                        Uri.parse(
+                                            'http://14.225.254.142:9000/job/info'));
+                                    request.body = json.encode({
+                                      "job_employer_id": '${i['job_employer']}'
+                                    });
+                                    request.headers.addAll(headers);
+
+                                    http.StreamedResponse response =
+                                        await request.send();
+
+                                    if (response.statusCode == 200) {
+                                      var value =
+                                          await response.stream.bytesToString();
+                                      Map job = json.decode(value);
+
+                                      globals.list_job[
+                                              '${job['result']['cv']["list_id"]}'] =
+                                          job['result'];
+                                    } else {
+                                      print(response.reasonPhrase);
+                                    }
+                                  }
+                                } else {
+                                  globals.list_job = null;
+                                }
+                              } catch (e) {
+                                globals.list_job = null;
+                              }
+                              print(globals.list_job);
+                            } else {
+                              globals.recruiment = null;
+                              globals.list_job = null;
+                            }
+                            //end list job
+
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) => MobileScreen(),
                             ));
                           } else {
+                            // login fail popup error email password
                             print("response: " + response.reasonPhrase);
                           }
                         } on Exception catch (_) {
@@ -261,7 +455,7 @@ class _SignInState extends State<SignIn> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25.0),
                                       side: BorderSide(color: kPrimaryColor)))),
-                      onPressed: () {  },
+                      onPressed: () {},
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:linkedin_clone/screen/pages/sign_in/sign_in.dart';
 import '../home.dart';
 import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
 import 'package:linkedin_clone/size_config.dart';
@@ -160,7 +161,7 @@ class ChangePassword extends StatelessWidget {
                           print(await response.stream.bytesToString());
 
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MobileScreen(),
+                            builder: (BuildContext context) => SignIn(),
                           ));
                         } else {
                           print("Error: " + response.reasonPhrase);
