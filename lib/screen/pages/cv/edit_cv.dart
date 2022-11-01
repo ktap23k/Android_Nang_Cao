@@ -228,10 +228,7 @@ class EditCV extends StatelessWidget {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => CreateCV(),
-                        )),
+                        onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                           "Cancel",
                           style: TextStyle(
