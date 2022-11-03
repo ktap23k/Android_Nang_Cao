@@ -1,15 +1,50 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
 import 'package:linkedin_clone/screen/pages/home.dart';
-import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
 import 'package:linkedin_clone/size_config.dart';
-
+import 'package:linkedin_clone/globals.dart' as globals;
 import 'create_cv.dart';
+import 'package:http/http.dart' as http;
 
-class EditCV extends StatelessWidget {
+class EditCV extends StatefulWidget {
+  @override
+  _EditCV createState() => _EditCV();
+}
+
+class _EditCV extends State<EditCV> {
   final _post = Data.postList;
+  String _dropGender = "Gender";
+  String _dropRegion = "Region";
+  String _dropEducation = "Education";
+
+  var avata = globals.profile['avatar'];
+
+  final name = TextEditingController();
+  final date = TextEditingController();
+  final contryside = TextEditingController();
+  final salary = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    name.dispose();
+    date.dispose();
+    contryside.dispose();
+    salary.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,15 +64,84 @@ class EditCV extends StatelessWidget {
                 children: [
                   Row(children: [
                     Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          image: DecorationImage(
-                              image: AssetImage(_post[1].profileUrl))),
+                      width: 100,
+                      height: 100,
+                      child: InkWell(
+                        onTap: () async {
+                          PickedFile pickedFile = await ImagePicker().getImage(
+                            source: ImageSource.gallery,
+                            maxWidth: 1800,
+                            maxHeight: 1800,
+                          );
+                          if (pickedFile != null) {
+                            // File imageFile = File(pickedFile.path);
+                            try {
+                              var headers = {
+                                'Authorization': 'Bearer ${globals.token}'
+                              };
+                              var request = http.MultipartRequest(
+                                  'POST',
+                                  Uri.parse(
+                                      'http://14.225.254.142:9000/profile/avatar'));
+                              request.files.add(
+                                  await http.MultipartFile.fromPath(
+                                      'avatar_img', '${pickedFile.path}'));
+                              request.headers.addAll(headers);
+
+                              http.StreamedResponse response =
+                                  await request.send();
+
+                              if (response.statusCode == 200) {
+                                print(await response.stream.bytesToString());
+                                try {
+                                  var headers = {
+                                    'Authorization': 'Bearer ${globals.token}',
+                                    'Content-Type': 'application/json'
+                                  };
+                                  var request = http.Request(
+                                      'GET',
+                                      Uri.parse(
+                                          'http://14.225.254.142:9000/profile'));
+                                  request.body = json.encode({});
+                                  request.headers.addAll(headers);
+
+                                  http.StreamedResponse response_ =
+                                      await request.send();
+
+                                  // get proflie
+                                  if (response_.statusCode == 200) {
+                                    var value =
+                                        await response_.stream.bytesToString();
+                                    globals.profile =
+                                        json.decode(value)['result'];
+                                    print(globals.profile);
+                                  } else {
+                                    print(
+                                        'Profile err: ${response_.reasonPhrase}');
+                                  }
+                                } catch (e) {}
+                              } else {
+                                print(response.reasonPhrase);
+                              }
+                            } catch (e) {}
+                            setState(() {
+                              avata = globals.profile['avatar'];
+                            });
+                          }
+                        },
+                        child: CircleAvatar(
+                          radius: 48, // Image radius
+                          backgroundImage:
+                              NetworkImage('${avata ?? globals.avata_null}'),
+                        ),
+                      ),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.all(Radius.circular(100)),
+                      //     image: DecorationImage(
+                      //         image: AssetImage(_post[1].profileUrl))),
                     ),
                     Container(
-                      width: 60,
+                      width: 40,
                       height: 30,
                     ),
                     Container(
@@ -58,26 +162,10 @@ class EditCV extends StatelessWidget {
                     ),
                     Container(
                       height: 30,
-                      width: 230,
+                      width: 200,
                       child: TextFormField(
                         decoration: InputDecoration(hintText: "Name"),
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("Professions"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 230,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Professions"),
+                        controller: name,
                       ),
                     ),
                   ]),
@@ -91,12 +179,33 @@ class EditCV extends StatelessWidget {
                       child: Text("Gender"),
                     ),
                     Container(
-                      height: 30,
-                      width: 230,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Gender"),
-                      ),
-                    ),
+                        height: 30,
+                        width: 200,
+                        child: DropdownButton<String>(
+                          hint: _dropGender == null
+                              ? Text('Dropdown')
+                              : Text(_dropGender),
+                          isExpanded: true,
+                          iconSize: 30.0,
+                          style: TextStyle(color: Colors.blue),
+                          items: <String>[
+                            'Female',
+                            'Male',
+                            'No answer',
+                            'Free description'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              _dropGender = value;
+                            });
+                          },
+                        )),
                   ]),
                   SizedBox(
                     height: 20,
@@ -109,9 +218,10 @@ class EditCV extends StatelessWidget {
                     ),
                     Container(
                       height: 30,
-                      width: 230,
+                      width: 200,
                       child: TextFormField(
                         decoration: InputDecoration(hintText: "Date of birth"),
+                        controller: date,
                       ),
                     ),
                   ]),
@@ -122,13 +232,14 @@ class EditCV extends StatelessWidget {
                     Container(
                       height: 30,
                       width: 100,
-                      child: Text("Mobile"),
+                      child: Text("Contryside"),
                     ),
                     Container(
                       height: 30,
-                      width: 230,
+                      width: 200,
                       child: TextFormField(
-                        decoration: InputDecoration(hintText: "Mobile"),
+                        decoration: InputDecoration(hintText: "Contryside"),
+                        controller: contryside,
                       ),
                     ),
                   ]),
@@ -139,13 +250,15 @@ class EditCV extends StatelessWidget {
                     Container(
                       height: 30,
                       width: 100,
-                      child: Text("Email"),
+                      child: Text("Salary"),
                     ),
                     Container(
                       height: 30,
-                      width: 230,
+                      width: 200,
                       child: TextFormField(
-                        decoration: InputDecoration(hintText: "Email"),
+                        decoration: InputDecoration(hintText: "Salary"),
+                        controller: salary,
+                        keyboardType: TextInputType.number,
                       ),
                     ),
                   ]),
@@ -156,36 +269,95 @@ class EditCV extends StatelessWidget {
                     Container(
                       height: 30,
                       width: 100,
-                      child: Text("Address"),
+                      child: Text("Exp"),
                     ),
                     Container(
                       height: 30,
-                      width: 230,
+                      width: 200,
                       child: TextFormField(
-                        decoration: InputDecoration(hintText: "Address"),
+                        decoration: InputDecoration(hintText: "Exp"),
+                        keyboardType: TextInputType.number,
                       ),
                     ),
                   ]),
                   SizedBox(
                     height: 20,
+                  ),
+                  DropdownButton<String>(
+                    hint: _dropEducation == null
+                        ? Text('Dropdown')
+                        : Text(_dropEducation),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    style: TextStyle(color: Colors.blue),
+                    items: <String>[
+                      'High shool',
+                      'College',
+                      'University',
+                      'Master'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        print(value);
+                        _dropEducation = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                   TextFormField(
-                    decoration: InputDecoration(hintText: "Education"),
+                    decoration: InputDecoration(hintText: "University"),
                   ),
                   SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "Work Experiences"),
-                  ),
-                  SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "Interests"),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 15,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "Character"),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  DropdownButton<String>(
+                    hint: _dropRegion == null
+                        ? Text('Dropdown')
+                        : Text(_dropRegion),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    style: TextStyle(color: Colors.blue),
+                    items: <String>['Miền Bắc', 'Miền Trung', 'Miền Nam']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        print(value);
+                        _dropRegion = value;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "City"),
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   Row(children: [
                     SizedBox(
@@ -200,10 +372,56 @@ class EditCV extends StatelessWidget {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => MobileScreen(),
-                        )),
+                        onPressed: () async {
+                          Map data = json.decode(json.encode(globals.cv));
+
+                          data['cv'].remove('cv_id');
+                          data['cv'].remove('user');
+
+                          for (final i in data['job_user_info']) {
+                            data['job_user_info']
+                                    [data['job_user_info'].indexOf(i)]
+                                .remove('cv');
+                            data['job_user_info']
+                                    [data['job_user_info'].indexOf(i)]
+                                .remove('img_link');
+                            data['job_user_info']
+                                    [data['job_user_info'].indexOf(i)]
+                                .remove('job_user_id');
+                          }
+                          Map detail = data['cv'];
+                          detail['job_user_info'] = data['job_user_info'];
+
+                          //save data from form
+                          print('data: $detail');
+
+                          // send data
+                          try {
+                            var headers = {
+                              'Authorization': 'Bearer ${globals.token}',
+                              'Content-Type': 'application/json'
+                            };
+                            var request = http.Request('POST',
+                                Uri.parse('http://14.225.254.142:9000/cv'));
+                            request.body = json.encode(detail);
+                            request.headers.addAll(headers);
+
+                            http.StreamedResponse response =
+                                await request.send();
+
+                            if (response.statusCode == 200) {
+                              print(await response.stream.bytesToString());
+                            } else {
+                              print('Err: ${response.reasonPhrase}');
+                            }
+                          } catch (e) {
+                            print('Err:');
+                          }
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => MobileScreen(),
+                          ));
+                        },
                         child: Text(
                           "Save",
                           style: TextStyle(
@@ -214,7 +432,7 @@ class EditCV extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 120,
+                      width: 80,
                     ),
                     SizedBox(
                       width: 120,
@@ -238,7 +456,10 @@ class EditCV extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ])
+                  ]),
+                  SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
             )
