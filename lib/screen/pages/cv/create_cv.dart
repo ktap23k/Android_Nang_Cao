@@ -67,7 +67,7 @@ class _CreateCVScreenState extends State<CreateCV> {
             children: [
               Container(
                 child: AppBar(
-                  title: Text("Home"),
+                  title: Text("View CV"),
                   leading: IconButton(
                     icon: Icon(
                       Icons.chevron_left_rounded,
