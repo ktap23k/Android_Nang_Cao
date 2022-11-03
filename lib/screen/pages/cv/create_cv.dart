@@ -8,7 +8,6 @@ import 'package:linkedin_clone/globals.dart' as globals;
 
 import 'edit_cv.dart';
 
-
 class CreateCV extends StatefulWidget {
   @override
   _CreateCVScreenState createState() => _CreateCVScreenState();
@@ -85,10 +84,14 @@ class _CreateCVScreenState extends State<CreateCV> {
                           Icons.more_vert_outlined,
                           size: 30,
                         ),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => EditCV(),
-                        )),
+                        onPressed: () {
+                          globals.indexdefault =
+                              globals.cv['job_user_info'].length;
+                          print(globals.indexdefault);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => EditCV(),
+                          ));
+                        },
                       ),
                     ),
                   ],
@@ -289,7 +292,7 @@ class _CreateCVScreenState extends State<CreateCV> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Job: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        "Job: ${globals.job_user[globals.cv['job_user_info'][index]['user_job']] ?? '---'}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -314,7 +317,10 @@ class _CreateCVScreenState extends State<CreateCV> {
                                       ),
                                       Image.network(
                                           "${globals.cv['job_user_info'][index]['img_link'] ?? 'https://androidtuan.s3.amazonaws.com/img/153200e8-9e2d-4105-9150-f89dbfd7099e.jpg'}",
-                                          width: 200)
+                                          width: 180),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
                                     ]),
                               );
                             }),

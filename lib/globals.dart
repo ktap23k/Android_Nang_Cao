@@ -54,7 +54,7 @@ String avata_null =
 //                 "info_job": "abcd",
 //                 "start_at": "10/10/2022",
 //                 "end_at": "20/10/2022",
-//                 "user_job": 2,
+//                 "user_job": 1,
 //                 "job_user_id": 1
 //             },
 //             {
@@ -72,21 +72,133 @@ String avata_null =
 //     }
 Map cv;
 
-// finds data
-Map finds;
+
 
 // list job data
 Map list_job;
 
+int indexlist = 0;
+int indexdefault = 0;
+
+// finds data
+// {
+//     "result": [
+//         {
+//             "user": 1,
+//             "phone": "0347913389",
+//             "email": "ktap23k@gmail.com",
+//             "name_company": "hkkhkhk",
+//             "region": "Hà Nội",
+//             "city": "Hà Hội",
+//             "address_company": "Tân Triều, Thanh Trì",
+//             "orther_req": "không",
+//             "benefit": ",jhjhhjj",
+//             "end_time": "11/2022",
+//             "list_id": 1,
+//             "job_employer_infos": [
+//                 {
+//                     "list_job": 1,
+//                     "basic_salary": 120202020,
+//                     "number": 3,
+//                     "gender": 0,
+//                     "age": 4,
+//                     "exp": 3,
+//                     "level_languge": "123",
+//                     "position_job": "123",
+//                     "info_job": "123",
+//                     "languge_job": "python, java",
+//                     "job_employer_id": 1
+//                 },
+//                 {
+//                     "list_job": 1,
+//                     "basic_salary": 1234,
+//                     "number": 12,
+//                     "gender": 2,
+//                     "age": 33,
+//                     "exp": 5,
+//                     "level_languge": "master",
+//                     "position_job": "lead",
+//                     "info_job": "Xu li AI",
+//                     "languge_job": "python, R",
+//                     "job_employer_id": 2
+//                 }
+//             ]
+//         },
+//         {
+//             "user": 7,
+//             "phone": "0347913389",
+//             "email": "ktap23k@gmail.com",
+//             "name_company": "ABC",
+//             "region": "Thanh Tri",
+//             "city": "Ha Noi",
+//             "address_company": "Tan Trieu",
+//             "orther_req": "Khoong",
+//             "benefit": "Khoong",
+//             "end_time": "12/2022",
+//             "list_id": 2,
+//             "job_employer_infos": [
+//                 {
+//                     "list_job": 2,
+//                     "basic_salary": 4355,
+//                     "number": 1,
+//                     "gender": 0,
+//                     "age": 44,
+//                     "exp": 2,
+//                     "level_languge": "master E, N1",
+//                     "position_job": "PM",
+//                     "info_job": "ABC",
+//                     "languge_job": "python C#",
+//                     "job_employer_id": 3
+//                 }
+//             ]
+//         }
+//     ]
+// }
+Map finds;
+
 //list job recruiment
+// {
+//     "result": [
+//         {
+//             "job_employer": 1,
+//             "cv": 1,
+//             "create_at": "2022-11-01T16:27:36.764Z",
+//             "id": 1
+//         },
+//         {
+//             "job_employer": 3,
+//             "cv": 1,
+//             "create_at": "2022-11-01T19:45:45.507Z",
+//             "id": 2
+//         }
+//     ]
+// }
 Map recruiment;
 
+Map job_user = {
+  0: "ios",
+  1: "android",
+  2: "web",
+  3: "fullstack",
+};
+Map unjob_user = {
+  "ios": 0,
+  "android": 1,
+  "web": 2,
+  "fullstack": 3,
+};
 Map education = {
   0: "High shool",
   1: "College",
   2: "University",
   3: "Master",
   null: "---"
+};
+Map uneducation = {
+  "High shool": 0,
+  "College": 1,
+  "University": 2,
+  "Master": 3,
 };
 //data fake cv
 Map cv_fake = {
