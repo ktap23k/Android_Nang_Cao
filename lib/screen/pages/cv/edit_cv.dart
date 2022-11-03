@@ -16,18 +16,278 @@ class EditCV extends StatefulWidget {
   _EditCV createState() => _EditCV();
 }
 
+final listJobs_ = [
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+];
+var listJobs = [listJobs_];
+
 class _EditCV extends State<EditCV> {
+  // final name_job = TextEditingController();
+
+  var listContainer = <Widget>[];
+  final container_ = Container(
+    height: 510,
+    child: Column(
+      children: [
+        Text(
+          "Job",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Divider(
+          thickness: 1.50,
+          color: Colors.black26,
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        TextFormField(
+          decoration:
+              InputDecoration(hintText: "Name Job ${globals.indexlist}"),
+          controller: listJobs[0][0],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "Position"),
+          controller: listJobs[0][1],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "User Job"),
+          controller: listJobs[0][2],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "Address Company"),
+          controller: listJobs[0][3],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "Info Job"),
+          controller: listJobs[0][4],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "Start At (ex: 09/10/2022)"),
+          controller: listJobs[0][5],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          decoration: InputDecoration(hintText: "End At (ex: 10/10/2022)"),
+          controller: listJobs[0][6],
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
+    ),
+  );
+
+  void addNewField() {
+    setState(() {
+      globals.indexlist = globals.indexlist + 1;
+      listJobs.add([]);
+      for (var i in [0, 1, 2, 3, 4, 5, 6]) {
+        print("add: $i");
+        listJobs[globals.indexlist].add(TextEditingController());
+      }
+      final container__ = Container(
+        height: 510,
+        child: Column(
+          children: [
+            Text(
+              "Job",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Divider(
+              thickness: 1.50,
+              color: Colors.black26,
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            TextFormField(
+              decoration:
+                  InputDecoration(hintText: "Name Job ${globals.indexlist}"),
+              controller: listJobs[globals.indexlist][0],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(hintText: "Position"),
+              controller: listJobs[globals.indexlist][1],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(hintText: "User Job"),
+              controller: listJobs[globals.indexlist][2],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(hintText: "Address Company"),
+              controller: listJobs[globals.indexlist][3],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(hintText: "Info Job"),
+              controller: listJobs[globals.indexlist][4],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration:
+                  InputDecoration(hintText: "Start At (ex: 09/10/2022)"),
+              controller: listJobs[globals.indexlist][5],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(hintText: "End At (ex: 10/10/2022)"),
+              controller: listJobs[globals.indexlist][6],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
+      );
+      listContainer.add(container__);
+      print('index: ${globals.indexlist} length: ${listJobs.length}');
+    });
+  }
+
+  void subNewField() {
+    setState(() {
+      if (globals.indexlist >= 0) {
+        listJobs.remove(listJobs[globals.indexlist]);
+        listContainer.remove(listContainer[globals.indexlist]);
+        globals.indexlist = globals.indexlist - 1;
+      }
+    });
+  }
+
   final _post = Data.postList;
   String _dropGender = "Gender";
   String _dropRegion = "Region";
   String _dropEducation = "Education";
 
   var avata = globals.profile['avatar'];
-
   final name = TextEditingController();
   final date = TextEditingController();
   final contryside = TextEditingController();
   final salary = TextEditingController();
+  final exp = TextEditingController();
+  final university = TextEditingController();
+  final interests = TextEditingController();
+  final character = TextEditingController();
+  final city = TextEditingController();
+
+  void setupData() {
+    name.text = globals.profile['name'] ?? "Tran Van A";
+    date.text = globals.profile['date_of_birth'] ?? "01/01/2000";
+    contryside.text = globals.cv['cv']['contryside'] ?? "Hà Nội";
+    salary.text = '${globals.cv['cv']['salary']}' ?? "100000";
+    exp.text = '${globals.cv['cv']['exp']}' ?? "1";
+    _dropGender = globals.profile['gender'] ?? "Male";
+    university.text = globals.cv['cv']['university_name'] ?? "HVKT Mật Mã";
+    interests.text =
+        globals.cv['cv']['interests'] ?? "Develop Backend and abc xyz";
+    character.text = globals.cv['cv']['character'] ?? "";
+    city.text = globals.cv['cv']['city'] ?? "";
+    _dropRegion = globals.cv['cv']['region'] ?? "Miền Bắc";
+    _dropEducation =
+        globals.education[globals.cv['cv']['education']] ?? "College";
+    for (var i in listJobs) {
+      int _c = listJobs.indexOf(i);
+      listJobs[_c][0].text =
+          '${globals.cv['job_user_info'][_c]['name_job']}' ?? '';
+      listJobs[_c][1].text =
+          '${globals.cv['job_user_info'][_c]['position']}' ?? '';
+      listJobs[_c][2].text =
+          '${globals.job_user[globals.cv['job_user_info'][_c]['user_job']]}' ??
+              'android';
+      listJobs[_c][3].text =
+          '${globals.cv['job_user_info'][_c]['address_company']}' ?? '';
+      listJobs[_c][4].text =
+          '${globals.cv['job_user_info'][_c]['info_job']}' ?? '';
+      listJobs[_c][5].text =
+          '${globals.cv['job_user_info'][_c]['start_at']}' ?? '';
+      listJobs[_c][6].text =
+          '${globals.cv['job_user_info'][_c]['end_at']}' ?? '';
+    }
+  }
+
+  void getData() {
+    globals.profile['name'] = name.text ?? null;
+    globals.profile['date_of_birth'] = date.text ?? null;
+    globals.cv['cv']['contryside'] = contryside.text ?? null;
+    globals.cv['cv']['salary'] = int.parse(salary.text) ?? null;
+    globals.cv['cv']['exp'] = int.parse(exp.text) ?? null;
+    globals.profile['gender'] = _dropGender ?? null;
+    globals.cv['cv']['university_name'] == university.text ?? null;
+    globals.cv['cv']['interests'] = interests.text ?? null;
+    globals.cv['cv']['character'] = character.text ?? null;
+    globals.cv['cv']['city'] = city.text ?? null;
+    globals.cv['cv']['region'] = _dropRegion ?? null;
+    globals.cv['cv']['education'] = globals.uneducation[_dropEducation] ?? "1";
+
+    print('default: ${globals.indexdefault} index: ${globals.indexlist}');
+    if (globals.indexdefault < globals.indexlist + 1) {
+      for (int i = globals.indexdefault; i <= globals.indexlist; i++) {
+        globals.cv['job_user_info'].add({});
+      }
+    } else {
+      int _d = globals.cv['job_user_info'].length - 1;
+      if (globals.indexlist + 1 < globals.indexdefault) {
+        for (int i = globals.indexlist + 1; i < globals.indexdefault; i++) {
+          globals.cv['job_user_info'].remove(globals.cv['job_user_info'][_d]);
+          _d--;
+        }
+      }
+    }
+    for (var i in listJobs) {
+      int _c = listJobs.indexOf(i);
+      globals.cv['job_user_info'][_c]['name_job'] =
+          listJobs[_c][0].text ?? null;
+      globals.cv['job_user_info'][_c]['position'] =
+          listJobs[_c][1].text ?? null;
+      globals.cv['job_user_info'][_c]['user_job'] =
+          globals.unjob_user[listJobs[_c][2].text] ?? '1';
+      globals.cv['job_user_info'][_c]['address_company'] =
+          listJobs[_c][3].text ?? null;
+      globals.cv['job_user_info'][_c]['info_job'] =
+          listJobs[_c][4].text ?? null;
+      globals.cv['job_user_info'][_c]['start_at'] =
+          listJobs[_c][5].text ?? null;
+      globals.cv['job_user_info'][_c]['end_at'] = listJobs[_c][6].text ?? null;
+    }
+  }
 
   @override
   void dispose() {
@@ -37,11 +297,25 @@ class _EditCV extends State<EditCV> {
     date.dispose();
     contryside.dispose();
     salary.dispose();
+    exp.dispose();
+    university.dispose();
+    interests.dispose();
+    character.dispose();
+    city.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    listContainer.add(container_);
+    listJobs = [listJobs_];
+    globals.indexlist = 0;
+    print("index: ${globals.indexdefault} ${globals.indexlist}");
+    for (int i = 0; i < globals.indexdefault - 1; i++) {
+      addNewField();
+    }
+    ;
+    setupData();
     super.initState();
   }
 
@@ -277,6 +551,7 @@ class _EditCV extends State<EditCV> {
                       child: TextFormField(
                         decoration: InputDecoration(hintText: "Exp"),
                         keyboardType: TextInputType.number,
+                        controller: exp,
                       ),
                     ),
                   ]),
@@ -313,18 +588,21 @@ class _EditCV extends State<EditCV> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "University"),
+                    controller: university,
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "Interests"),
+                    controller: interests,
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "Character"),
+                    controller: character,
                   ),
                   SizedBox(
                     height: 15,
@@ -355,9 +633,88 @@ class _EditCV extends State<EditCV> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "City"),
+                    controller: city,
                   ),
                   SizedBox(
                     height: 40,
+                  ),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: listContainer,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  // Add Form
+                  Row(
+                    children: [
+                      Center(
+                        child: SizedBox(
+                          width: 120,
+                          height: 40,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        kPrimaryColor),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        side:
+                                            BorderSide(color: kPrimaryColor)))),
+                            onPressed: () {
+                              addNewField();
+                            },
+                            child: Text(
+                              "Add Job",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 80,
+                      ),
+                      Center(
+                        child: SizedBox(
+                          width: 120,
+                          height: 40,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        kPrimaryColor),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        side:
+                                            BorderSide(color: kPrimaryColor)))),
+                            onPressed: () {
+                              subNewField();
+                            },
+                            child: Text(
+                              "Sub Job",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 30,
                   ),
                   Row(children: [
                     SizedBox(
@@ -373,6 +730,14 @@ class _EditCV extends State<EditCV> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
+                          try {
+                            getData();
+                            print("cv: ${globals.cv}");
+                            print("profile: ${globals.profile}");
+                          } catch (e) {
+                            print(e);
+                          }
+
                           Map data = json.decode(json.encode(globals.cv));
 
                           data['cv'].remove('cv_id');
