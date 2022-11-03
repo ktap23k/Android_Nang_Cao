@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/constants.dart';
-import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
+import 'package:linkedin_clone/screen/pages/forget_password/password_change.dart';
+import 'package:linkedin_clone/screen/pages/home.dart';
+import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/screen/pages/splash_screens/components/splash_screen.dart';
+
 //import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
@@ -37,10 +40,20 @@ class _SettingState extends State<Setting> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      "",
-                      style: TextStyle(color: kPrimaryColor, fontSize: 16),
-                    ),
+                    // child: Text(
+                    //   "",
+                    //   style: TextStyle(color: kPrimaryColor, fontSize: 16),
+                    // ),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_rounded,
+                          size: 40,
+                        ),
+                        onPressed: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => MobileScreen(),
+                        )),
+                      ),
                   )
                 ],
               ),
@@ -50,14 +63,24 @@ class _SettingState extends State<Setting> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Setting",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-
+                  Row(children: [
+                    Container(
+                        width: 80,
+                        height: 80,
+                        child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                '${globals.profile['avatar'] ?? globals.avata_null}'))),
+                    Container(
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 16),
+                        child: Text(
+                                globals.profile['name'],
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                      ),
+                    )
+                  ]),
                   SizedBox(
                     height: 30,
                   ),
@@ -76,9 +99,9 @@ class _SettingState extends State<Setting> {
                             //side: BorderSide(color: Colors.black)
                           ))),
                       onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (BuildContext context) => HomeScreen(),
-                        // ));
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => Profile(),
+                        ));
                       },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,7 +110,7 @@ class _SettingState extends State<Setting> {
                             width: 10,
                           ),
                           Text(
-                            "Profile",
+                            "Edit Profile",
                             style: TextStyle(
                               fontSize: getProportionateScreenWidth(18),
                               color: Colors.black,
@@ -114,7 +137,11 @@ class _SettingState extends State<Setting> {
                             borderRadius: BorderRadius.circular(15.0),
                             //side: BorderSide(color: Colors.black)
                           ))),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => ChangePassword(),
+                        ));
+                      },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -122,7 +149,7 @@ class _SettingState extends State<Setting> {
                             width: 10,
                           ),
                           Text(
-                            "Notice",
+                            "Change password",
                             style: TextStyle(
                               fontSize: getProportionateScreenWidth(18),
                               color: Colors.black,
@@ -161,6 +188,14 @@ class _SettingState extends State<Setting> {
                               fontSize: getProportionateScreenWidth(18),
                               color: Colors.black,
                             ),
+                          ),
+                          SizedBox(
+                            width: 210,
+                          ),
+                          Icon(
+                            Icons.nights_stay,
+                            color: Color(0xFF95A1AC),
+                            size: 22,
                           ),
                         ],
                       ),

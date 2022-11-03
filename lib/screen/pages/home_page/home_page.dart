@@ -191,14 +191,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Text(_post[index].comments),
-                              Text(" comments")
-                            ],
-                          ),
-                        )
+                        // Container(
+                        //   child: Row(
+                        //     children: [
+                        //       Text(_post[index].comments),
+                        //       Text(" comments")
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                     Divider(
@@ -239,19 +239,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 iconImage: "assets/icons/like_icon_white.png",
                 isHover: false),
           ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: rowSingleButton(
+          //       color: Colors.black,
+          //       name: "Comment",
+          //       iconImage: "assets/icons/comment_icon.png",
+          //       isHover: false),
+          // ),
           InkWell(
             onTap: () {},
             child: rowSingleButton(
                 color: Colors.black,
-                name: "Comment",
-                iconImage: "assets/icons/comment_icon.png",
-                isHover: false),
-          ),
-          InkWell(
-            onTap: () {},
-            child: rowSingleButton(
-                color: Colors.black,
-                name: "Share",
+                name: "Apply",
                 iconImage: "assets/icons/share_icon.png",
                 isHover: false),
           ),

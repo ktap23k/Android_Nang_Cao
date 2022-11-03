@@ -28,7 +28,10 @@ class _JobListState extends State<JobList> {
             
             Container(
               child: AppBar(
-                title: Text("Home"),
+                title: Center(
+                  child: Text("Job list", textAlign: TextAlign.center ,
+                  ),
+                ),
                 leading: IconButton(
                   icon: Icon(
                     Icons.chevron_left_rounded,
@@ -45,13 +48,7 @@ class _JobListState extends State<JobList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Job List",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  
                   SizedBox(
                     height: 30,
                   ),
