@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
 
 import 'package:linkedin_clone/screen/pages/home.dart';
-import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
-import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
-import 'package:linkedin_clone/screen/pages/widget/Custom_Buttons.dart';
-import 'package:linkedin_clone/screen/pages/widget/custom_appBar.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:linkedin_clone/globals.dart' as globals;
 
-import '../../../size_config.dart';
 import 'edit_cv.dart';
+
 
 class CreateCV extends StatefulWidget {
   @override
@@ -107,42 +103,122 @@ class _CreateCVScreenState extends State<CreateCV> {
                         top: BorderSide(color: Colors.black54, width: 0.50),
                         bottom:
                             BorderSide(color: Colors.black54, width: 0.50))),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 150,
-                          height: 250,
-                          decoration: BoxDecoration(
-                              // borderRadius: BorderRadius.all(Radius.circular(0)),
-                              image: DecorationImage(
-                                  image: AssetImage(_post[1].profileUrl))),
-                        ),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Column(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                              width: 120,
+                              height: 120,
+                              child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      '${globals.profile['avatar'] ?? globals.avata_null}'))),
+                          SizedBox(
+                            width: 24,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                globals.profile['name'],
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Developer Android", // thay luôn vào
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Gender: ${globals.profile['gender'] ?? '---'}",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Date of birth: ${globals.profile['date_of_birth'] ?? '---'}",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                              // Text(
+                              //   "Mobile: ",
+                              //   style: TextStyle(
+                              //       fontSize: 14, fontWeight: FontWeight.normal),
+                              // ),
+                              // SizedBox(
+                              //   height: 10,
+                              // ),
+                              Text(
+                                "Email: ${globals.profile['email']}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Contryside: ${globals.cv['cv']['contryside'] ?? '---'}",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Salary: ${globals.cv['cv']['salary'] ?? '---'}",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Exp: ${globals.cv['cv']['exp'] ?? '---'}",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Education",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(
+                        thickness: 1.50,
+                        color: Colors.black26,
+                      ),
+                      Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Name",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Professions", // thay luôn vào
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.normal),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Gender: ",
+                              "Education: ${globals.education[globals.cv['cv']['education']]}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -150,7 +226,117 @@ class _CreateCVScreenState extends State<CreateCV> {
                               height: 10,
                             ),
                             Text(
-                              "Date of birth: ",
+                              "University_name: ${globals.cv['cv']['university_name'] ?? '---'}",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ]),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Work Experiences",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(
+                        thickness: 1.50,
+                        color: Colors.black26,
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                        margin: EdgeInsets.only(bottom: 0.0, top: 8),
+                        height: 300,
+                        child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: globals.cv['job_user_info'].length,
+                            itemBuilder: (context, int index) {
+                              return Container(
+                                height: 400,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Time: ${globals.cv['job_user_info'][index]['start_at'] ?? '---'} to ${globals.cv['job_user_info'][index]['end_at'] ?? '---'}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Name Job: ${globals.cv['job_user_info'][index]['name_job'] ?? '---'}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Position: ${globals.cv['job_user_info'][index]['position'] ?? '---'}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Job: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Info: ${globals.cv['job_user_info'][index]['info_job'] ?? '---'}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Certificate:",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      Image.network(
+                                          "${globals.cv['job_user_info'][index]['img_link'] ?? 'https://androidtuan.s3.amazonaws.com/img/153200e8-9e2d-4105-9150-f89dbfd7099e.jpg'}",
+                                          width: 200)
+                                    ]),
+                              );
+                            }),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Interests",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                      Divider(
+                        thickness: 1.50,
+                        color: Colors.black26,
+                      ),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Interests: ${globals.cv['cv']['interests'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -158,7 +344,7 @@ class _CreateCVScreenState extends State<CreateCV> {
                               height: 10,
                             ),
                             Text(
-                              "Mobile: ",
+                              "Character: ${globals.cv['cv']['character'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -166,7 +352,7 @@ class _CreateCVScreenState extends State<CreateCV> {
                               height: 10,
                             ),
                             Text(
-                              "Email: ",
+                              "Region: ${globals.cv['cv']['region'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -174,78 +360,30 @@ class _CreateCVScreenState extends State<CreateCV> {
                               height: 10,
                             ),
                             Text(
-                              "Adress: ",
+                              "City: ${globals.cv['cv']['city'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
-                          ],
-                        )
-                      ],
-                    ),
-                    Text(
-                      "Education",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      thickness: 1.50,
-                      color: Colors.black26,
-                    ),
-                    Text(
-                      _post[1].tags,
-                      style: TextStyle(color: kPrimaryColor),
-                    ),
-                    SizedBox(
-                      height: 70,
-                    ),
-                    Text(
-                      "Work Experiences",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Divider(
-                      thickness: 1.50,
-                      color: Colors.black26,
-                    ),
-                    Text(
-                      _post[1].tags,
-                      style: TextStyle(color: kPrimaryColor),
-                    ),
-                    SizedBox(
-                      height: 70,
-                    ),
-                    Text(
-                      "Interests",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                    Divider(
-                      thickness: 1.50,
-                      color: Colors.black26,
-                    ),
-                    Text(
-                      _post[1].tags,
-                      style: TextStyle(color: kPrimaryColor),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [],
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 0.50,
-                      color: Colors.black26,
-                    ),
-                  ],
+                        ],
+                      ),
+                      Divider(
+                        thickness: 0.50,
+                        color: Colors.black26,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

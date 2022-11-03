@@ -20,6 +20,10 @@ final CounterStorage storage = CounterStorage();
 // data is: {user_id: 5, age: null, name: Tran Anh Tuan, gender: null, gender_free_description: null, email: ktap1k@gmail.com, avatar: null, date_of_birth: null}
 Map profile;
 
+// ignore: non_constant_identifier_names
+String avata_null =
+    "https://androidtuan.s3.amazonaws.com/img/9f77541b-29a7-4541-ab81-e3121b2a8534.jpeg";
+
 //save cv data
 // {
 //         "cv": {
@@ -77,16 +81,23 @@ Map list_job;
 //list job recruiment
 Map recruiment;
 
+Map education = {
+  0: "High shool",
+  1: "College",
+  2: "University",
+  3: "Master",
+  null: "---"
+};
 //data fake cv
 Map cv_fake = {
   "cv": {
     "cv_id": 0,
-    "university_name": "HVKT Mật Mã",
-    "registration_number": "123",
+    "university_name": "Học Viện Kĩ Thuật Mật Mã",
+    "registration_number": null,
     "cmnd_cccd": "12436666",
     "interests": "Yêu màu hồng ghét sự giả dối",
     "character": "bình thường",
-    "contryside": "Quảng Nam",
+    "contryside": null,
     "education": 2,
     "salary": 100000,
     "region": "Miền Bắc",
@@ -113,7 +124,8 @@ Map cv_fake = {
       // DEV_WEB = 2
       // DEV_FULLSTACK = 3
       "job_user_id": 1,
-      "img_link": ""
+      "img_link":
+          "https://androidtuan.s3.amazonaws.com/img/153200e8-9e2d-4105-9150-f89dbfd7099e.jpg"
     },
     {
       "cv": 1,
@@ -125,7 +137,8 @@ Map cv_fake = {
       "end_at": "20/10/2022",
       "user_job": 2,
       "job_user_id": 2,
-      "img_link": ""
+      "img_link":
+          "https://androidtuan.s3.amazonaws.com/img/3d953570-acb6-4fc6-90d0-abfc9d617c67.jpg"
     }
   ]
 };
