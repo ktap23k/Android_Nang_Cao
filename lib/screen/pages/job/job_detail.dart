@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:linkedin_clone/repository/data.dart';
 
-import 'package:linkedin_clone/screen/pages/home.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
 
@@ -68,7 +67,7 @@ class _JobDetailScreenState extends State<JobDetail> {
             children: [
               Container(
                 child: AppBar(
-                  title: Text("Job"),
+                  title: Text("Job detail"),
                   leading: IconButton(
                     icon: Icon(
                       Icons.chevron_left_rounded,
@@ -94,19 +93,14 @@ class _JobDetailScreenState extends State<JobDetail> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                              width: 120,
-                              height: 120,
-                              child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      '${globals.profile['avatar'] ?? globals.avata_null}'))),
                           SizedBox(
-                            width: 24,
+                            width: 60,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
+                                //globals.finds['name_company'],
                                 globals.profile['name'],
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
@@ -115,7 +109,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                 height: 10,
                               ),
                               Text(
-                                "Developer Android", // thay luôn vào
+                                "Region", 
+                                //globals.finds['region'],
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal),
@@ -124,7 +119,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                 height: 10,
                               ),
                               Text(
-                                "Gender: ${globals.profile['gender'] ?? '---'}",
+                                "City: ${globals.profile['gender'] ?? '---'}",
+                                //globals.finds['city'],
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),
@@ -132,26 +128,12 @@ class _JobDetailScreenState extends State<JobDetail> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                "Date of birth: ${globals.profile['date_of_birth'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              
 
-                              // Text(
-                              //   "Mobile: ",
-                              //   style: TextStyle(
-                              //       fontSize: 14, fontWeight: FontWeight.normal),
-                              // ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
+                              
                               Text(
                                 "Email: ${globals.profile['email']}",
+                                //globals.finds['email'],
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -161,7 +143,9 @@ class _JobDetailScreenState extends State<JobDetail> {
                                 height: 10,
                               ),
                               Text(
-                                "Contryside: ${globals.cv['cv']['contryside'] ?? '---'}",
+                                "Address company: ${globals.cv['cv']['contryside'] ?? '---'}",
+                                //"Address company: ${globals.finds['address_company']}",
+                                 
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),
@@ -170,7 +154,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                 height: 10,
                               ),
                               Text(
-                                "Salary: ${globals.cv['cv']['salary'] ?? '---'}",
+                                "End time: ${globals.cv['cv']['salary'] ?? '---'}",
+                                //"End time: ${globals.finds['end_time']}",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),
@@ -179,7 +164,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                 height: 10,
                               ),
                               Text(
-                                "Exp: ${globals.cv['cv']['exp'] ?? '---'}",
+                                "Benefit: ${globals.cv['cv']['exp'] ?? '---'}",
+                                //"Benefit: ${globals.finds[benefit]}",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),
@@ -191,40 +177,12 @@ class _JobDetailScreenState extends State<JobDetail> {
                           )
                         ],
                       ),
-                      Text(
-                        "Education",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Divider(
-                        thickness: 1.50,
-                        color: Colors.black26,
-                      ),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Education: ${globals.education[globals.cv['cv']['education']]}",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.normal),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "University_name: ${globals.cv['cv']['university_name'] ?? '---'}",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.normal),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ]),
+                      
                       SizedBox(
                         height: 20,
                       ),
                       Text(
-                        "Work Experiences",
+                        "Job Decriptions",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -248,7 +206,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Time: ${globals.cv['job_user_info'][index]['start_at'] ?? '---'} to ${globals.cv['job_user_info'][index]['end_at'] ?? '---'}",
+                                        "Position:",
+                                        //"Position: ${globals.finds[position_job]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -257,7 +216,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Name Job: ${globals.cv['job_user_info'][index]['name_job'] ?? '---'}",
+                                        "Language job: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        //"Language job: ${globals.finds[language_job]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -266,7 +226,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Position: ${globals.cv['job_user_info'][index]['position'] ?? '---'}",
+                                        "Number: ${globals.cv['job_user_info'][index]['name_job'] ?? '---'}",
+                                        //"Number: ${globals.finds[number]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -275,7 +236,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Job: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        "Gender: ${globals.cv['job_user_info'][index]['position'] ?? '---'}",
+                                        //"Gender: ${globals.finds[gender]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -284,7 +246,8 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Info: ${globals.cv['job_user_info'][index]['info_job'] ?? '---'}",
+                                        "Exp: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        //"Exp: ${globals.finds[exp]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
@@ -293,11 +256,36 @@ class _JobDetailScreenState extends State<JobDetail> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Certificate:",
+                                        "Level language: ${globals.cv['job_user_info'][index]['info_job'] ?? '---'}",
+                                        //"Level language: ${globals.finds[level_language]}",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.normal),
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Info job: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        //"Info job: ${globals.finds[info_job]}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Basic salary: ${globals.cv['job_user_info'][index]['user_job'] ?? '---'}",
+                                        //"Basic salary: ${globals.finds[basic_salary]}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      
                                       Image.network(
                                           "${globals.cv['job_user_info'][index]['img_link'] ?? 'https://androidtuan.s3.amazonaws.com/img/153200e8-9e2d-4105-9150-f89dbfd7099e.jpg'}",
                                           width: 200)
@@ -308,12 +296,7 @@ class _JobDetailScreenState extends State<JobDetail> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Interests",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.left,
-                      ),
+                      
                       Divider(
                         thickness: 1.50,
                         color: Colors.black26,
@@ -322,7 +305,7 @@ class _JobDetailScreenState extends State<JobDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Interests: ${globals.cv['cv']['interests'] ?? '---'}",
+                              "Email: ${globals.cv['cv']['interests'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -330,7 +313,7 @@ class _JobDetailScreenState extends State<JobDetail> {
                               height: 10,
                             ),
                             Text(
-                              "Character: ${globals.cv['cv']['character'] ?? '---'}",
+                              "Address: ${globals.cv['cv']['character'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
@@ -338,36 +321,17 @@ class _JobDetailScreenState extends State<JobDetail> {
                               height: 10,
                             ),
                             Text(
-                              "Region: ${globals.cv['cv']['region'] ?? '---'}",
+                              "Mobie phone: ${globals.cv['cv']['region'] ?? '---'}",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.normal),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "City: ${globals.cv['cv']['city'] ?? '---'}",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.normal),
-                            ),
+                            
                             SizedBox(
                               height: 10,
                             ),
                           ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        thickness: 0.50,
-                        color: Colors.black26,
-                      ),
+                      
+                      
                     ],
                   ),
                 ),
