@@ -9,6 +9,8 @@ import 'package:linkedin_clone/screen/pages/splash_screens/components/splash_scr
 //import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Setting extends StatefulWidget {
   @override
@@ -103,6 +105,7 @@ class _SettingState extends State<Setting> {
                             //side: BorderSide(color: Colors.black)
                           ))),
                       onPressed: () {
+                        
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => Profile(),
                         ));
@@ -141,10 +144,33 @@ class _SettingState extends State<Setting> {
                             borderRadius: BorderRadius.circular(15.0),
                             //side: BorderSide(color: Colors.black)
                           ))),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => ChangePassword(),
-                        ));
+                      onPressed: () async {
+                        try {
+                          var headers = {'Content-Type': 'application/json'};
+                          var request = http.Request(
+                              'POST',
+                              Uri.parse(
+                                  'http://14.225.254.142:9000/password/forgot'));
+                          request.body =
+                              json.encode({"email": globals.profile['email']});
+                          request.headers.addAll(headers);
+
+                          http.StreamedResponse response = await request.send();
+
+                          if (response.statusCode == 200) {
+                            var value = await response.stream.bytesToString();
+                            Map valueMap = json.decode(value);
+                            print(valueMap);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ChangePassword(),
+                            ));
+                          } else {
+                            print("Error: " + response.reasonPhrase);
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
                       },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,

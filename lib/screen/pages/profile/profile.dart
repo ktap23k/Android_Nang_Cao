@@ -19,29 +19,44 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   final _post = Data.postList;
   String _dropGender = "Gender";
-  String _dropRegion = "Region";
-  String _dropEducation = "Education";
 
   var avata = globals.profile['avatar'];
 
   final name = TextEditingController();
+  final age = TextEditingController();
   final date = TextEditingController();
-  final contryside = TextEditingController();
-  final salary = TextEditingController();
+
+  setData() {
+    setState(() {
+      globals.profile['name'] = name.text ?? null;
+      globals.profile['age'] = age.text ?? null;
+      globals.profile['gender'] = globals.ungender_[_dropGender] ?? 0;
+      globals.profile['date_of_birth'] = date.text ?? null;
+    });
+  }
+
+  setDefault() {
+    setState(() {
+      name.text = globals.profile['name'] ?? '';
+      age.text = '${globals.profile['age']}' ?? '';
+      _dropGender = globals.gender_[globals.profile['gender']] ?? '';
+      date.text = globals.profile['date_of_birth'] ?? '';
+    });
+  }
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the _printLatestValue listener.
     name.dispose();
+    age.dispose();
     date.dispose();
-    contryside.dispose();
-    salary.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    setDefault();
     super.initState();
   }
 
@@ -144,10 +159,13 @@ class _Profile extends State<Profile> {
                       width: 40,
                       height: 30,
                     ),
-                    Container(
-                      child: Text(
-                        "Edit Profile",
-                        style: TextStyle(color: Colors.black, fontSize: 30),
+                    Expanded(
+                      flex: 7,
+                      child: Container(
+                        child: Text(
+                          "${globals.profile['name'] ?? 'Your Profile'}",
+                          style: TextStyle(color: Colors.black, fontSize: 25),
+                        ),
                       ),
                     ),
                   ]),
@@ -166,6 +184,24 @@ class _Profile extends State<Profile> {
                       child: TextFormField(
                         decoration: InputDecoration(hintText: "Name"),
                         controller: name,
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(children: [
+                    Container(
+                      height: 30,
+                      width: 100,
+                      child: Text("Age"),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 200,
+                      child: TextFormField(
+                        decoration: InputDecoration(hintText: "Age: 20"),
+                        controller: age,
                       ),
                     ),
                   ]),
@@ -226,138 +262,6 @@ class _Profile extends State<Profile> {
                     ),
                   ]),
                   SizedBox(
-                    height: 20,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("Email"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 200,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Email"),
-                        controller: contryside,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("Address"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 200,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Address"),
-                        controller: contryside,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("University"),
-                    ),
-                    Container(
-                        height: 30,
-                        width: 200,
-                        child: DropdownButton<String>(
-                      hint: _dropEducation == null
-                          ? Text('Dropdown')
-                          : Text(_dropEducation),
-                      isExpanded: true,
-                      iconSize: 30.0,
-                      style: TextStyle(color: Colors.blue),
-                      items: <String>[
-                        'High shool',
-                        'College',
-                        'University',
-                        'Master'
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          print(value);
-                          _dropEducation = value;
-                        });
-                      },
-                    ),
-                    )
-                  ]),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("University"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 200,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "University"),
-                        controller: contryside,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("Interests"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 200,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Interests"),
-                        controller: contryside,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(children: [
-                    Container(
-                      height: 30,
-                      width: 100,
-                      child: Text("Character"),
-                    ),
-                    Container(
-                      height: 30,
-                      width: 200,
-                      child: TextFormField(
-                        decoration: InputDecoration(hintText: "Character"),
-                        controller: contryside,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
                     height: 40,
                   ),
                   Row(children: [
@@ -374,37 +278,21 @@ class _Profile extends State<Profile> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
-                          Map data = json.decode(json.encode(globals.cv));
-
-                          data['cv'].remove('cv_id');
-                          data['cv'].remove('user');
-
-                          for (final i in data['job_user_info']) {
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('cv');
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('img_link');
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('job_user_id');
-                          }
-                          Map detail = data['cv'];
-                          detail['job_user_info'] = data['job_user_info'];
-
-                          //save data from form
-                          print('data: $detail');
-
-                          // send data
                           try {
                             var headers = {
                               'Authorization': 'Bearer ${globals.token}',
                               'Content-Type': 'application/json'
                             };
-                            var request = http.Request('POST',
-                                Uri.parse('http://14.225.254.142:9000/cv'));
-                            request.body = json.encode(detail);
+                            var request = http.Request(
+                                'PUT',
+                                Uri.parse(
+                                    'http://14.225.254.142:9000/profile'));
+                            request.body = json.encode({
+                              "age": age.text,
+                              "name": name.text,
+                              "gender": globals.ungender_[_dropGender],
+                              "date_of_birth": date.text
+                            });
                             request.headers.addAll(headers);
 
                             http.StreamedResponse response =
@@ -413,11 +301,9 @@ class _Profile extends State<Profile> {
                             if (response.statusCode == 200) {
                               print(await response.stream.bytesToString());
                             } else {
-                              print('Err: ${response.reasonPhrase}');
+                              print(response.reasonPhrase);
                             }
-                          } catch (e) {
-                            print('Err:');
-                          }
+                          } catch (e) {}
 
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) => MobileScreen(),

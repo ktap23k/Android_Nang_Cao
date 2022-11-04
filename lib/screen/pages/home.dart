@@ -16,12 +16,10 @@ class _MobileScreenState extends State<MobileScreen> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeScreen(),
-    JobList(),
     CreateCV(),
-    HomeScreen(),
-    HomeScreen(),
-
-
+    JobList(),
+    // HomeScreen(),
+    // HomeScreen(),
   ];
   void onTabTapped(int index) {
     setState(() {
@@ -35,56 +33,46 @@ class _MobileScreenState extends State<MobileScreen> {
       builder: (BuildContext context, SizingInformation sizingInformation) {
         return SafeArea(
           child: Scaffold(
-            bottomNavigationBar:
-
-
-          BottomNavigationBar(
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.black,
+            bottomNavigationBar: BottomNavigationBar(
+              unselectedItemColor: Colors.grey,
+              selectedItemColor: Colors.black,
 
               onTap: onTabTapped, // new
               currentIndex: _currentIndex, // new
               items: [
                 new BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.home,),
+                  icon: Icon(
+                    FontAwesomeIcons.home,
+                  ),
                   title: Text('Home'),
+                ),
 
+                new BottomNavigationBarItem(
+                    icon: Icon(
+                      FontAwesomeIcons.plusCircle,
+                    ),
+                    title: Text('Cv')),
+                new BottomNavigationBarItem(
+                  icon: Icon(
+                    FontAwesomeIcons.briefcase,
+                  ),
+                  title: Text('Jobs'),
+                ),
+                // new BottomNavigationBarItem(
+                //     icon: Icon(FontAwesomeIcons.solidBell,),
+                //     title: Text('Notifications')
+                // ),
+                // new BottomNavigationBarItem(
+                //     icon: Icon(FontAwesomeIcons.briefcase,),
 
-                ),
-                new BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.userFriends,),
-                  title: Text('My network'),
-                ),
-                new BottomNavigationBarItem(
-                    icon: Icon(FontAwesomeIcons.plusCircle,),
-                    title: Text('Post')
-                ),
-                new BottomNavigationBarItem(
-                    icon: Icon(FontAwesomeIcons.solidBell,),
-                    title: Text('Notifications')
-                ),
-                new BottomNavigationBarItem(
-                    icon: Icon(FontAwesomeIcons.briefcase,),
-
-                    title: Text('Jobs')
-                )
+                //     title: Text('Jobs')
+                // )
               ],
             ),
-
-
-
-
             body: _children[_currentIndex],
-
-
           ),
         );
       },
     );
   }
-
-
-
-
 }
-

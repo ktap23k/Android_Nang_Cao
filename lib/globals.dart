@@ -23,7 +23,8 @@ Map profile;
 // ignore: non_constant_identifier_names
 String avata_null =
     "https://androidtuan.s3.amazonaws.com/img/9f77541b-29a7-4541-ab81-e3121b2a8534.jpeg";
-
+String image_null =
+    "https://androidtuan.s3.amazonaws.com/img/ee1a2795-4b0c-4029-a112-f4c481be98aa.jpg";
 //save cv data
 // {
 //         "cv": {
@@ -90,6 +91,8 @@ Map list_job;
 
 int indexlist = 0;
 int indexdefault = 0;
+
+Map jobDetail;
 
 // finds data
 // {
@@ -187,6 +190,9 @@ Map finds;
 //     ]
 // }
 Map recruiment;
+Map dataRecruiment = {'result': []};
+String JobName = '';
+int check = -1;
 
 Map job_user = {
   0: "ios",
