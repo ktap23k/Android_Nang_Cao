@@ -214,7 +214,8 @@ class _EditCV extends State<EditCV> {
     contryside.text = globals.cv['cv']['contryside'] ?? "Hà Nội";
     salary.text = '${globals.cv['cv']['salary']}' ?? "100000";
     exp.text = '${globals.cv['cv']['exp']}' ?? "1";
-    _dropGender = globals.profile['gender'] ?? "Male";
+    print("'${globals.profile['gender']}'");
+    _dropGender = globals.gender_[globals.profile['gender']] ?? "Male";
     university.text = globals.cv['cv']['university_name'] ?? "HVKT Mật Mã";
     interests.text =
         globals.cv['cv']['interests'] ?? "Develop Backend and abc xyz";
@@ -249,7 +250,7 @@ class _EditCV extends State<EditCV> {
     globals.cv['cv']['contryside'] = contryside.text ?? null;
     globals.cv['cv']['salary'] = int.parse(salary.text) ?? null;
     globals.cv['cv']['exp'] = int.parse(exp.text) ?? null;
-    globals.profile['gender'] = _dropGender ?? null;
+    globals.profile['gender'] = globals.ungender_[_dropGender] ?? null;
     globals.cv['cv']['university_name'] == university.text ?? null;
     globals.cv['cv']['interests'] = interests.text ?? null;
     globals.cv['cv']['character'] = character.text ?? null;
@@ -737,6 +738,27 @@ class _EditCV extends State<EditCV> {
                           } catch (e) {
                             print(e);
                           }
+                          try {
+                            var headers = {
+                              'Authorization': 'Bearer ${globals.token}',
+                              'Content-Type': 'application/json'
+                            };
+                            var request = http.Request(
+                                'PUT',
+                                Uri.parse(
+                                    'http://14.225.254.142:9000/profile'));
+                            request.body = json.encode(globals.profile);
+                            request.headers.addAll(headers);
+
+                            http.StreamedResponse response =
+                                await request.send();
+
+                            if (response.statusCode == 200) {
+                              print(await response.stream.bytesToString());
+                            } else {
+                              print(response.reasonPhrase);
+                            }
+                          } catch (e) {}
 
                           Map data = json.decode(json.encode(globals.cv));
 

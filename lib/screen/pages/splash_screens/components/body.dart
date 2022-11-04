@@ -30,6 +30,54 @@ class _BodyState extends State<Body> {
       "image": "assets/image3.jpg"
     },
   ];
+  Future<void> getImageData() async {
+    // setup data finds
+    for (int index = 0; index < globals.finds['result'].length; index++) {
+      Map d = {'position_job': '', 'languge_job': '', 'job_info': ''};
+      if (globals.finds['result'][index]['job_employer_infos'].length > 0) {
+        for (var i in globals.finds['result'][index]['job_employer_infos']) {
+          d['position_job'] = "${d['position_job']} \n ${i['position_job']}";
+          d['languge_job'] = "${d['languge_job']} \n ${i['languge_job']}";
+          d['job_info'] = "${d['job_info']} \n ${i['job_info']}";
+        }
+      }
+      globals.finds['result'][index]['position_job'] = d['position_job'];
+      globals.finds['result'][index]['languge_job'] = d['languge_job'];
+      globals.finds['result'][index]['job_info'] = d['job_info'];
+    }
+
+    //get Image avata user
+    // if (globals.finds['result'] != [])
+    //   for (var i in globals.finds['result']) {
+    //     try {
+    //       var headers = {
+    //         'Authorization': 'Bearer ${globals.token}',
+    //         'Content-Type': 'application/json'
+    //       };
+    //       var request = http.Request(
+    //           'GET', Uri.parse('http://14.225.254.142:9000/get/image'));
+    //       request.body = json.encode({"user_id": i['user']});
+    //       request.headers.addAll(headers);
+
+    //       http.StreamedResponse response = await request.send();
+
+    //       if (response.statusCode == 200) {
+    //         var value = await response.stream.bytesToString();
+    //         var val = json.decode(value)['result'];
+
+    //         globals.finds['result'][globals.finds['result'].indexOf(i)]
+    //             ['avata'] = val['source'] ?? globals.avata_null;
+    //         globals.finds['result'][globals.finds['result'].indexOf(i)]
+    //             ['name'] = val['name'] ?? globals.avata_null;
+    //       } else {
+    //         print(response.reasonPhrase);
+    //       }
+    //     } catch (e) {
+    //       print(e);
+    //     }
+    //   }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -236,6 +284,11 @@ class _BodyState extends State<Body> {
                                   globals.finds['result']
                                           [globals.finds['result'].indexOf(i)]
                                       ['url_profile'] = url;
+                                  globals.finds['result']
+                                          [globals.finds['result'].indexOf(i)]
+                                      ['job_employer_id'] = i[
+                                          'job_employer_infos'][0]
+                                      ['job_employer_id'];
                                 } else {
                                   print(response.reasonPhrase);
                                 }
@@ -243,9 +296,7 @@ class _BodyState extends State<Body> {
                                 print("error get profile job");
                               }
                             }
-                            for (final i in globals.finds['result']) {
-                              print("data finds: $i");
-                            }
+
                             // get profile
                             // print('token: ${globals.token}');
                             var headers = {
@@ -393,7 +444,10 @@ class _BodyState extends State<Body> {
                               globals.cv = globals.cv_fake;
                               print(response_1.reasonPhrase);
                             }
-
+                            getImageData();
+                            for (final i in globals.finds['result']) {
+                              print("data finds: $i");
+                            }
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) => MobileScreen(),
                             ));

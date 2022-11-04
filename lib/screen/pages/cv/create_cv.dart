@@ -111,100 +111,107 @@ class _CreateCVScreenState extends State<CreateCV> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                              width: 120,
-                              height: 120,
-                              child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      '${globals.profile['avatar'] ?? globals.avata_null}'))),
-                          SizedBox(
-                            width: 24,
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                                width: 140,
+                                height: 140,
+                                child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        '${globals.profile['avatar'] ?? globals.avata_null}'))),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                globals.profile['name'],
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Developer Android", // thay luôn vào
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Gender: ${globals.profile['gender'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Date of birth: ${globals.profile['date_of_birth'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            flex: 6,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    child: Text(
+                                  globals.profile['name'],
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Developer Android", // thay luôn vào
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Gender: ${globals.gender_[globals.profile['gender']] ?? '---'}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Date of birth: ${globals.profile['date_of_birth'] ?? '---'}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
 
-                              // Text(
-                              //   "Mobile: ",
-                              //   style: TextStyle(
-                              //       fontSize: 14, fontWeight: FontWeight.normal),
-                              // ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-                              Text(
-                                "Email: ${globals.profile['email']}",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Contryside: ${globals.cv['cv']['contryside'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Salary: ${globals.cv['cv']['salary'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Exp: ${globals.cv['cv']['exp'] ?? '---'}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
+                                // Text(
+                                //   "Mobile: ",
+                                //   style: TextStyle(
+                                //       fontSize: 14, fontWeight: FontWeight.normal),
+                                // ),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                                Text(
+                                  "Email: ${globals.profile['email']}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Contryside: ${globals.cv['cv']['contryside'] ?? '---'}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Salary: ${globals.cv['cv']['salary'] ?? '---'}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Exp: ${globals.cv['cv']['exp'] ?? '---'}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),

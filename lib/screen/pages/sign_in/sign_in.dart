@@ -30,6 +30,23 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
+  Future<void> getImageData() async {
+    // setup data finds
+    for (int index = 0; index < globals.finds['result'].length; index++) {
+      Map d = {'position_job': '', 'languge_job': '', 'job_info': ''};
+      if (globals.finds['result'][index]['job_employer_infos'].length > 0) {
+        for (var i in globals.finds['result'][index]['job_employer_infos']) {
+          d['position_job'] = "${d['position_job']} \n ${i['position_job']}";
+          d['languge_job'] = "${d['languge_job']} \n ${i['languge_job']}";
+          d['job_info'] = "${d['job_info']} \n ${i['job_info']}";
+        }
+      }
+      globals.finds['result'][index]['position_job'] = d['position_job'];
+      globals.finds['result'][index]['languge_job'] = d['languge_job'];
+      globals.finds['result'][index]['job_info'] = d['job_info'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -308,6 +325,7 @@ class _SignInState extends State<SignIn> {
                                   globals.finds['result']
                                           [globals.finds['result'].indexOf(i)]
                                       ['url_profile'] = url;
+                                  globals.finds['result'][globals.finds['result'].indexOf(i)]['job_employer_id'] = i['job_employer_infos'][0]['job_employer_id'];
                                 } else {
                                   print(response.reasonPhrase);
                                 }
@@ -394,6 +412,7 @@ class _SignInState extends State<SignIn> {
                               globals.list_job = null;
                             }
                             //end list job
+                            getImageData();
 
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) => MobileScreen(),
