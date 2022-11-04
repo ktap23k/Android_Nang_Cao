@@ -72,7 +72,18 @@ String avata_null =
 //     }
 Map cv;
 
-
+//gender
+Map gender_ = {
+  "0": "female",
+  "1": "male",
+  "2": "no answer",
+  "3": "free description",
+  0: "female",
+  1: "male",
+  2: "no answer",
+  3: "free description"
+};
+Map ungender_ = {"Female": 0, "Male": 1, "No answer": 2, "Free description": 3};
 
 // list job data
 Map list_job;
@@ -85,6 +96,8 @@ int indexdefault = 0;
 //     "result": [
 //         {
 //             "user": 1,
+//             "avata" : "link",
+//             "name" : "name",
 //             "phone": "0347913389",
 //             "email": "ktap23k@gmail.com",
 //             "name_company": "hkkhkhk",

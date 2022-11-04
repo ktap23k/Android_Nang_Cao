@@ -45,15 +45,15 @@ class _SettingState extends State<Setting> {
                     //   style: TextStyle(color: kPrimaryColor, fontSize: 16),
                     // ),
                     child: IconButton(
-                        icon: Icon(
-                          Icons.chevron_right_rounded,
-                          size: 40,
-                        ),
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => MobileScreen(),
-                        )),
+                      icon: Icon(
+                        Icons.chevron_right_rounded,
+                        size: 40,
                       ),
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => MobileScreen(),
+                      )),
+                    ),
                   )
                 ],
               ),
@@ -70,14 +70,18 @@ class _SettingState extends State<Setting> {
                         child: CircleAvatar(
                             backgroundImage: NetworkImage(
                                 '${globals.profile['avatar'] ?? globals.avata_null}'))),
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 16),
-                        child: Text(
-                                globals.profile['name'],
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
+                    Expanded(
+                      flex: 8,
+                      child: Container(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 10, 20, 16),
+                          child: Text(
+                            globals.profile['name'],
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     )
                   ]),
@@ -190,7 +194,7 @@ class _SettingState extends State<Setting> {
                             ),
                           ),
                           SizedBox(
-                            width: 210,
+                            width: 150,
                           ),
                           Icon(
                             Icons.nights_stay,

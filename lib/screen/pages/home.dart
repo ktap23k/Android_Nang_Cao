@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin_clone/screen/pages/cv/create_cv.dart';
 
 import 'package:linkedin_clone/screen/pages/home_page/home_page.dart';
-import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
 import 'package:linkedin_clone/screen/pages/job/job_list.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
