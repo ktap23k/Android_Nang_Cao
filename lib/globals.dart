@@ -194,6 +194,9 @@ Map dataRecruiment = {'result': []};
 String JobName = '';
 int check = -1;
 
+var like_status = [0, 0];
+var apply_status = [];
+
 Map job_user = {
   0: "ios",
   1: "android",

@@ -22,6 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isScrollDown = false;
 
   Future<void> getImageData() async {
+    globals.recruiment['status'] = [];
+    for (var i in globals.recruiment['result']) {
+      globals.recruiment['status'].add(i['job_employer']);
+    }
+
+    for (var i = 0; i < globals.finds['result'].length; i++) {
+      globals.like_status.add(0);
+      bool check = true;
+      for (var j in globals.finds['result'][i]['job_employer_infos']) {
+        if (globals.recruiment['status'].contains(j['job_employer_id'])) {
+          globals.apply_status.add(1);
+          check = false;
+          break;
+        }
+      }
+      if (check) {
+        globals.apply_status.add(0);
+      }
+    }
+
     // setup data finds
     for (int index = 0; index < globals.finds['result'].length; index++) {
       globals.finds['result'][index]['job_employer_id'] = globals
@@ -42,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    globals.like_status = [0, 0];
+    globals.apply_status = [];
     getImageData();
     super.initState();
     _scrollController = ScrollController();
@@ -269,11 +291,21 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                if (globals.like_status[index] == 0)
+                  globals.like_status[index] = 1;
+                else
+                  globals.like_status[index] = 0;
+              });
+            },
             child: rowSingleButton(
-                color: Colors.black,
+                color:
+                    globals.like_status[index] == 1 ? Colors.red : Colors.black,
                 name: "Like",
-                iconImage: "assets/icons/like_icon_white.png",
+                iconImage: globals.like_status[index] == 1
+                    ? "assets/icons/love_icon.png"
+                    : "assets/icons/like_icon_white.png",
                 isHover: false),
           ),
           // InkWell(
@@ -286,6 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           InkWell(
             onTap: () async {
+              globals.apply_status[index] = 1;
               if (globals.cv['cv']['cv_id'] != 0) {
                 var job_employer =
                     globals.finds['result'][index]['job_employer_id'];
@@ -337,9 +370,13 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             child: rowSingleButton(
-                color: Colors.black,
+                color: globals.apply_status[index] == 1
+                    ? Colors.red
+                    : Colors.black,
                 name: "Apply",
-                iconImage: "assets/icons/share_icon.png",
+                iconImage: globals.apply_status[index] == 1
+                    ? "assets/icons/love_icon.png"
+                    : "assets/icons/share_icon.png",
                 isHover: false),
           ),
         ],
