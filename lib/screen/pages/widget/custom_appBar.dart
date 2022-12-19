@@ -72,11 +72,13 @@ class CustomAppBar extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => Setting(),
                     )),
-                    child: Center(
-                        child: Text(
-                      "c",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    )),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              '${globals.profile['avatar'] ?? globals.avata_null}')),
+                    ),
                   ),
                 ),
               ),

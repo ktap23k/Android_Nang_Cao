@@ -22,25 +22,28 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isScrollDown = false;
 
   Future<void> getImageData() async {
-    globals.recruiment['status'] = [];
-    for (var i in globals.recruiment['result']) {
-      globals.recruiment['status'].add(i['job_employer']);
-    }
+    if (globals.recruiment != null) {
+      globals.recruiment['status'] = [];
+      for (var i in globals.recruiment['result']) {
+        globals.recruiment['status'].add(i['job_employer']);
+      }
 
-    for (var i = 0; i < globals.finds['result'].length; i++) {
-      globals.like_status.add(0);
-      bool check = true;
-      for (var j in globals.finds['result'][i]['job_employer_infos']) {
-        if (globals.recruiment['status'].contains(j['job_employer_id'])) {
-          globals.apply_status.add(1);
-          check = false;
-          break;
+      for (var i = 0; i < globals.finds['result'].length; i++) {
+        globals.like_status.add(0);
+        bool check = true;
+        for (var j in globals.finds['result'][i]['job_employer_infos']) {
+          if (globals.recruiment['status'].contains(j['job_employer_id'])) {
+            globals.apply_status.add(1);
+            check = false;
+            break;
+          }
+        }
+        if (check) {
+          globals.apply_status.add(0);
         }
       }
-      if (check) {
-        globals.apply_status.add(0);
-      }
     }
+    print(globals.apply_status);
 
     // setup data finds
     for (int index = 0; index < globals.finds['result'].length; index++) {
@@ -57,12 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
       globals.finds['result'][index]['position_job'] = d['position_job'];
       globals.finds['result'][index]['languge_job'] = d['languge_job'];
       globals.finds['result'][index]['job_info'] = d['job_info'];
+      globals.apply_status.add(0);
+      globals.like_status.add(0);
     }
   }
 
   @override
   void initState() {
-    globals.like_status = [0, 0];
+    globals.like_status = [];
     globals.apply_status = [];
     getImageData();
     super.initState();
@@ -318,7 +323,6 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           InkWell(
             onTap: () async {
-              globals.apply_status[index] = 1;
               if (globals.cv['cv']['cv_id'] != 0) {
                 var job_employer =
                     globals.finds['result'][index]['job_employer_id'];
@@ -339,6 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (response.statusCode == 200) {
                     print(await response.stream.bytesToString());
+                    globals.apply_status[index] = 1;
                     try {
                       var headers = {'Content-Type': 'application/json'};
                       var request = http.Request(
@@ -362,11 +367,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     } catch (e) {
                       print("Err ---recruiment");
                       globals.recruiment = null;
+                      globals.apply_status[index] = 0;
+                      print("No Cv");
                     }
                   } else {
                     print(response.reasonPhrase);
+                    globals.apply_status[index] = 0;
+                    print("No Cv");
                   }
                 } catch (e) {}
+              } else {
+                print("No Cv");
               }
             },
             child: rowSingleButton(
