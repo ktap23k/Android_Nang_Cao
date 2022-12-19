@@ -325,7 +325,11 @@ class _SignInState extends State<SignIn> {
                                   globals.finds['result']
                                           [globals.finds['result'].indexOf(i)]
                                       ['url_profile'] = url;
-                                  globals.finds['result'][globals.finds['result'].indexOf(i)]['job_employer_id'] = i['job_employer_infos'][0]['job_employer_id'];
+                                  globals.finds['result']
+                                          [globals.finds['result'].indexOf(i)]
+                                      ['job_employer_id'] = i[
+                                          'job_employer_infos'][0]
+                                      ['job_employer_id'];
                                 } else {
                                   print(response.reasonPhrase);
                                 }

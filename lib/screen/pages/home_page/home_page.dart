@@ -22,6 +22,29 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isScrollDown = false;
 
   Future<void> getImageData() async {
+    if (globals.recruiment != null) {
+      globals.recruiment['status'] = [];
+      for (var i in globals.recruiment['result']) {
+        globals.recruiment['status'].add(i['job_employer']);
+      }
+
+      for (var i = 0; i < globals.finds['result'].length; i++) {
+        globals.like_status.add(0);
+        bool check = true;
+        for (var j in globals.finds['result'][i]['job_employer_infos']) {
+          if (globals.recruiment['status'].contains(j['job_employer_id'])) {
+            globals.apply_status.add(1);
+            check = false;
+            break;
+          }
+        }
+        if (check) {
+          globals.apply_status.add(0);
+        }
+      }
+    }
+    print(globals.apply_status);
+
     // setup data finds
     for (int index = 0; index < globals.finds['result'].length; index++) {
       globals.finds['result'][index]['job_employer_id'] = globals
@@ -37,11 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
       globals.finds['result'][index]['position_job'] = d['position_job'];
       globals.finds['result'][index]['languge_job'] = d['languge_job'];
       globals.finds['result'][index]['job_info'] = d['job_info'];
+      globals.apply_status.add(0);
+      globals.like_status.add(0);
     }
   }
 
   @override
   void initState() {
+    globals.like_status = [];
+    globals.apply_status = [];
     getImageData();
     super.initState();
     _scrollController = ScrollController();
@@ -269,11 +296,21 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                if (globals.like_status[index] == 0)
+                  globals.like_status[index] = 1;
+                else
+                  globals.like_status[index] = 0;
+              });
+            },
             child: rowSingleButton(
-                color: Colors.black,
+                color:
+                    globals.like_status[index] == 1 ? Colors.red : Colors.black,
                 name: "Like",
-                iconImage: "assets/icons/like_icon_white.png",
+                iconImage: globals.like_status[index] == 1
+                    ? "assets/icons/love_icon.png"
+                    : "assets/icons/like_icon_white.png",
                 isHover: false),
           ),
           // InkWell(
@@ -306,6 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (response.statusCode == 200) {
                     print(await response.stream.bytesToString());
+                    globals.apply_status[index] = 1;
                     try {
                       var headers = {'Content-Type': 'application/json'};
                       var request = http.Request(
@@ -329,17 +367,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     } catch (e) {
                       print("Err ---recruiment");
                       globals.recruiment = null;
+                      globals.apply_status[index] = 0;
+                      print("No Cv");
                     }
                   } else {
                     print(response.reasonPhrase);
+                    globals.apply_status[index] = 0;
+                    print("No Cv");
                   }
                 } catch (e) {}
+              } else {
+                print("No Cv");
               }
             },
             child: rowSingleButton(
-                color: Colors.black,
+                color: globals.apply_status[index] == 1
+                    ? Colors.red
+                    : Colors.black,
                 name: "Apply",
-                iconImage: "assets/icons/share_icon.png",
+                iconImage: globals.apply_status[index] == 1
+                    ? "assets/icons/love_icon.png"
+                    : "assets/icons/share_icon.png",
                 isHover: false),
           ),
         ],

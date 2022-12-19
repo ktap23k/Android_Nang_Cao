@@ -35,6 +35,8 @@ dependencies:
   path_provider: ^2.0.10
   email_validator: ^2.1.17
   image_picker: ^0.8.5+3
+  encrypt: ^5.0.1
+  platform_device_id: ^1.0.1
 
 dev_dependencies:
   flutter_test:
