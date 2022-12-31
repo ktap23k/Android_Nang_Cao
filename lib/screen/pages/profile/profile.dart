@@ -6,8 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:linkedin_clone/constants.dart';
 import 'package:linkedin_clone/repository/data.dart';
 import 'package:linkedin_clone/screen/pages/home.dart';
+import 'package:linkedin_clone/screen/pages/home_page/setting.dart';
 import 'package:linkedin_clone/size_config.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
+import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -278,36 +280,58 @@ class _Profile extends State<Profile> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
-                          try {
-                            var headers = {
-                              'Authorization': 'Bearer ${globals.token}',
-                              'Content-Type': 'application/json'
-                            };
-                            var request = http.Request(
-                                'PUT',
-                                Uri.parse(
-                                    'http://14.225.254.142:9000/profile'));
-                            request.body = json.encode({
-                              "age": age.text,
-                              "name": name.text,
-                              "gender": globals.ungender_[_dropGender],
-                              "date_of_birth": date.text
-                            });
-                            request.headers.addAll(headers);
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Do you want save?'),
+                              content: const Text(''),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    try {
+                                      var headers = {
+                                        'Authorization':
+                                            'Bearer ${globals.token}',
+                                        'Content-Type': 'application/json'
+                                      };
+                                      var request = http.Request(
+                                          'PUT',
+                                          Uri.parse(
+                                              'http://14.225.254.142:9000/profile'));
+                                      request.body = json.encode({
+                                        "age": age.text,
+                                        "name": name.text,
+                                        "gender":
+                                            globals.ungender_[_dropGender],
+                                        "date_of_birth": date.text
+                                      });
+                                      request.headers.addAll(headers);
 
-                            http.StreamedResponse response =
-                                await request.send();
+                                      http.StreamedResponse response =
+                                          await request.send();
 
-                            if (response.statusCode == 200) {
-                              print(await response.stream.bytesToString());
-                            } else {
-                              print(response.reasonPhrase);
-                            }
-                          } catch (e) {}
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MobileScreen(),
-                          ));
+                                      if (response.statusCode == 200) {
+                                        print(await response.stream
+                                            .bytesToString());
+                                      } else {
+                                        print(response.reasonPhrase);
+                                      }
+                                    } catch (e) {}
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                Setting()));
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         child: Text(
                           "Save",

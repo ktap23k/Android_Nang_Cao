@@ -731,83 +731,113 @@ class _EditCV extends State<EditCV> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
-                          try {
-                            getData();
-                            print("cv: ${globals.cv}");
-                            print("profile: ${globals.profile}");
-                          } catch (e) {
-                            print(e);
-                          }
-                          try {
-                            var headers = {
-                              'Authorization': 'Bearer ${globals.token}',
-                              'Content-Type': 'application/json'
-                            };
-                            var request = http.Request(
-                                'PUT',
-                                Uri.parse(
-                                    'http://14.225.254.142:9000/profile'));
-                            request.body = json.encode(globals.profile);
-                            request.headers.addAll(headers);
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Do you want exit?'),
+                              content: const Text(''),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    try {
+                                      getData();
+                                      print("cv: ${globals.cv}");
+                                      print("profile: ${globals.profile}");
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                    try {
+                                      var headers = {
+                                        'Authorization':
+                                            'Bearer ${globals.token}',
+                                        'Content-Type': 'application/json'
+                                      };
+                                      var request = http.Request(
+                                          'PUT',
+                                          Uri.parse(
+                                              'http://14.225.254.142:9000/profile'));
+                                      request.body =
+                                          json.encode(globals.profile);
+                                      request.headers.addAll(headers);
 
-                            http.StreamedResponse response =
-                                await request.send();
+                                      http.StreamedResponse response =
+                                          await request.send();
 
-                            if (response.statusCode == 200) {
-                              print(await response.stream.bytesToString());
-                            } else {
-                              print(response.reasonPhrase);
-                            }
-                          } catch (e) {}
+                                      if (response.statusCode == 200) {
+                                        print(await response.stream
+                                            .bytesToString());
+                                      } else {
+                                        print(response.reasonPhrase);
+                                      }
+                                    } catch (e) {}
 
-                          Map data = json.decode(json.encode(globals.cv));
+                                    Map data =
+                                        json.decode(json.encode(globals.cv));
 
-                          data['cv'].remove('cv_id');
-                          data['cv'].remove('user');
+                                    data['cv'].remove('cv_id');
+                                    data['cv'].remove('user');
 
-                          for (final i in data['job_user_info']) {
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('cv');
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('img_link');
-                            data['job_user_info']
-                                    [data['job_user_info'].indexOf(i)]
-                                .remove('job_user_id');
-                          }
-                          Map detail = data['cv'];
-                          detail['job_user_info'] = data['job_user_info'];
+                                    for (final i in data['job_user_info']) {
+                                      data['job_user_info']
+                                              [data['job_user_info'].indexOf(i)]
+                                          .remove('cv');
+                                      data['job_user_info']
+                                              [data['job_user_info'].indexOf(i)]
+                                          .remove('img_link');
+                                      data['job_user_info']
+                                              [data['job_user_info'].indexOf(i)]
+                                          .remove('job_user_id');
+                                    }
+                                    Map detail = data['cv'];
+                                    detail['job_user_info'] =
+                                        data['job_user_info'];
 
-                          //save data from form
-                          print('data: $detail');
+                                    //save data from form
+                                    print('data: $detail');
 
-                          // send data
-                          try {
-                            var headers = {
-                              'Authorization': 'Bearer ${globals.token}',
-                              'Content-Type': 'application/json'
-                            };
-                            var request = http.Request('POST',
-                                Uri.parse('http://14.225.254.142:9000/cv'));
-                            request.body = json.encode(detail);
-                            request.headers.addAll(headers);
+                                    // send data
+                                    try {
+                                      var headers = {
+                                        'Authorization':
+                                            'Bearer ${globals.token}',
+                                        'Content-Type': 'application/json'
+                                      };
+                                      var request = http.Request(
+                                          'POST',
+                                          Uri.parse(
+                                              'http://14.225.254.142:9000/cv'));
+                                      request.body = json.encode(detail);
+                                      request.headers.addAll(headers);
 
-                            http.StreamedResponse response =
-                                await request.send();
+                                      http.StreamedResponse response =
+                                          await request.send();
 
-                            if (response.statusCode == 200) {
-                              print(await response.stream.bytesToString());
-                            } else {
-                              print('Err: ${response.reasonPhrase}');
-                            }
-                          } catch (e) {
-                            print('Err:');
-                          }
+                                      if (response.statusCode == 200) {
+                                        print(await response.stream
+                                            .bytesToString());
+                                      } else {
+                                        print('Err: ${response.reasonPhrase}');
+                                      }
+                                    } catch (e) {
+                                      print('Err:');
+                                    }
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MobileScreen(),
-                          ));
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MobileScreen(),
+                                    ));
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         child: Text(
                           "Save",

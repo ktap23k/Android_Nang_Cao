@@ -5,6 +5,7 @@ import 'package:linkedin_clone/screen/pages/forget_password/password_change.dart
 import 'package:linkedin_clone/screen/pages/home.dart';
 import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/screen/pages/splash_screens/components/splash_screen.dart';
+import 'package:flutter/material.dart';
 
 //import 'package:linkedin_clone/screen/pages/profile/profile.dart';
 import 'package:linkedin_clone/size_config.dart';
@@ -105,7 +106,6 @@ class _SettingState extends State<Setting> {
                             //side: BorderSide(color: Colors.black)
                           ))),
                       onPressed: () {
-                        
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => Profile(),
                         ));
@@ -207,25 +207,25 @@ class _SettingState extends State<Setting> {
                           ))),
                       onPressed: () {},
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Dark mode",
-                            style: TextStyle(
-                              fontSize: getProportionateScreenWidth(18),
-                              color: Colors.black,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Dark mode",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            width: 150,
-                          ),
-                          Icon(
-                            Icons.nights_stay,
-                            color: Color(0xFF95A1AC),
-                            size: 22,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Icon(
+                              Icons.nights_stay,
+                              color: Color(0xFF95A1AC),
+                              size: 22,
+                            ),
                           ),
                         ],
                       ),
@@ -248,16 +248,34 @@ class _SettingState extends State<Setting> {
                             //side: BorderSide(color: Colors.black)
                           ))),
                       onPressed: () async {
-                        Map valueMap = {};
-                        valueMap['isLoggedIn'] = false;
-                        valueMap['token'] = null;
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Do you want exit?'),
+                            content: const Text(''),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Map valueMap = {};
+                                  valueMap['isLoggedIn'] = false;
+                                  valueMap['token'] = null;
 
-                        await globals.storage
-                            .writeCounter('login.json', valueMap);
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => SplashScreen(),
-                        ));
+                                  await globals.storage
+                                      .writeCounter('login.json', valueMap);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          SplashScreen()));
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
