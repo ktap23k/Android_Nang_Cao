@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:linkedin_clone/screen/pages/sign_in/token.dart';
+import 'package:linkedin_clone/screen/pages/sign_up/sign_up1.dart';
 import '../home.dart';
 import 'package:linkedin_clone/screen/pages/sign_up/sign_up2.dart';
 import 'package:linkedin_clone/size_config.dart';
@@ -160,6 +161,15 @@ class SignUp3 extends StatelessWidget {
                             builder: (BuildContext context) => Token(),
                           ));
                         } else {
+                          if (response2.statusCode == 406) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => SignUp2(),
+                            ));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => SignUp(),
+                            ));
+                          }
                           print(response2.reasonPhrase);
                         }
                       },

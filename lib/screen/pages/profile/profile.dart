@@ -27,6 +27,7 @@ class _Profile extends State<Profile> {
   final name = TextEditingController();
   final age = TextEditingController();
   final date = TextEditingController();
+  final cccd = TextEditingController();
 
   setData() {
     setState(() {
@@ -34,12 +35,28 @@ class _Profile extends State<Profile> {
       globals.profile['age'] = age.text ?? null;
       globals.profile['gender'] = globals.ungender_[_dropGender] ?? 0;
       globals.profile['date_of_birth'] = date.text ?? null;
+      globals.cv['cv']['cmnd_cccd'] = globals.encrypt.encrypt(cccd.text ?? "");
+      print(globals.cv['cv']['cmnd_cccd']);
     });
   }
 
   setDefault() {
     setState(() {
       name.text = globals.profile['name'] ?? '';
+
+      print(globals.cv['cv']['cmnd_cccd']);
+      if (globals.cv['cv']['cmnd_cccd'] == '12436666') {
+        cccd.text = 'ex: 12436666';
+      } else {
+        try {
+          cccd.text =
+              globals.encrypt.decrypt(globals.cv['cv']['cmnd_cccd']) ?? '';
+        } catch (e) {
+          print(e);
+          cccd.text = 'ex: 12436666';
+        }
+      }
+
       age.text = '${globals.profile['age']}' ?? '';
       _dropGender = globals.gender_[globals.profile['gender']] ?? '';
       date.text = globals.profile['date_of_birth'] ?? '';
@@ -53,6 +70,7 @@ class _Profile extends State<Profile> {
     name.dispose();
     age.dispose();
     date.dispose();
+    cccd.dispose();
     super.dispose();
   }
 
@@ -190,6 +208,24 @@ class _Profile extends State<Profile> {
                     ),
                   ]),
                   SizedBox(
+                    height: 30,
+                  ),
+                  Row(children: [
+                    Container(
+                      height: 30,
+                      width: 100,
+                      child: Text("CCCD"),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 200,
+                      child: TextFormField(
+                        decoration: InputDecoration(hintText: "CCCD"),
+                        controller: cccd,
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
                     height: 20,
                   ),
                   Row(children: [
@@ -280,58 +316,36 @@ class _Profile extends State<Profile> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Do you want save?'),
-                              content: const Text(''),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    try {
-                                      var headers = {
-                                        'Authorization':
-                                            'Bearer ${globals.token}',
-                                        'Content-Type': 'application/json'
-                                      };
-                                      var request = http.Request(
-                                          'PUT',
-                                          Uri.parse(
-                                              'http://14.225.254.142:9000/profile'));
-                                      request.body = json.encode({
-                                        "age": age.text,
-                                        "name": name.text,
-                                        "gender":
-                                            globals.ungender_[_dropGender],
-                                        "date_of_birth": date.text
-                                      });
-                                      request.headers.addAll(headers);
+                          try {
+                            var headers = {
+                              'Authorization': 'Bearer ${globals.token}',
+                              'Content-Type': 'application/json'
+                            };
+                            var request = http.Request(
+                                'PUT',
+                                Uri.parse(
+                                    'http://14.225.254.142:9000/profile'));
+                            request.body = json.encode({
+                              "age": age.text,
+                              "name": name.text,
+                              "gender": globals.ungender_[_dropGender],
+                              "date_of_birth": date.text
+                            });
+                            request.headers.addAll(headers);
 
                                       http.StreamedResponse response =
                                           await request.send();
 
-                                      if (response.statusCode == 200) {
-                                        print(await response.stream
-                                            .bytesToString());
-                                      } else {
-                                        print(response.reasonPhrase);
-                                      }
-                                    } catch (e) {}
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                Setting()));
-                                  },
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
+                            if (response.statusCode == 200) {
+                              print(await response.stream.bytesToString());
+                            } else {
+                              print(response.reasonPhrase);
+                            }
+                          } catch (e) {}
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => MobileScreen(),
+                          ));
                         },
                         child: Text(
                           "Save",

@@ -9,6 +9,7 @@ import '../../../../constants.dart';
 import 'package:linkedin_clone/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 class SignUp2 extends StatelessWidget {
   final email = TextEditingController();
@@ -75,39 +76,14 @@ class SignUp2 extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(25.0),
                                       side: BorderSide(color: kPrimaryColor)))),
                       onPressed: () async {
-                        try {
-                          assert(EmailValidator.validate(email.text));
-
-                          globals.email = email.text;
-
-                          var headers = {'Content-Type': 'application/json'};
-                          var request = http.Request('POST',
-                              Uri.parse('https://cvnl.me/uuid/v1/user/create'));
-                          request.body = json.encode(
-                              {"account": globals.email, "hash": "check"});
-                          request.headers.addAll(headers);
-
-                          http.StreamedResponse response = await request.send();
-
-                          if (response.statusCode == 200) {
-                            var value = await response.stream.bytesToString();
-                            print(value);
-                            Map valueMap = json.decode(value);
-                            if (valueMap['error']) {
-                              print("email exits!");
-                            } else {
-                              globals.uuid = valueMap['data']['userInfo']['id'];
-                              print("uuid: " + globals.uuid);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => SignUp3(),
-                              ));
-                            }
-                          } else {
-                            print(response.reasonPhrase);
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
+                        assert(EmailValidator.validate(email.text));
+                        globals.email = email.text;
+                        String deviceId = await PlatformDeviceId.getDeviceId;
+                        globals.uuid = deviceId;
+                        print("uuid: " + globals.uuid);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => SignUp3(),
+                        ));
                       },
                       child: Text(
                         "Continue",

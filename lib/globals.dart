@@ -4,6 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'dataEncrypt.dart';
+
+var encrypt = DataEncrypt();
 
 String userName = '';
 String userFristName = '';
@@ -193,6 +196,9 @@ Map recruiment;
 Map dataRecruiment = {'result': []};
 String JobName = '';
 int check = -1;
+
+var like_status = [0, 0];
+var apply_status = [];
 
 Map job_user = {
   0: "ios",
