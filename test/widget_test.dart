@@ -29,7 +29,7 @@ void main() {
   print(decrypted); // Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
   var encrypt = DataEncrypt();
-  print(encrypt.encrypt(data));
+  print(encrypt.encrypt(plainText));
 
   print(encrypt.decrypt(enc));
   Map valueMap = json.decode(encrypt.decrypt(enc));

@@ -25,6 +25,7 @@ class _Profile extends State<Profile> {
   final name = TextEditingController();
   final age = TextEditingController();
   final date = TextEditingController();
+  final cccd = TextEditingController();
 
   setData() {
     setState(() {
@@ -32,12 +33,28 @@ class _Profile extends State<Profile> {
       globals.profile['age'] = age.text ?? null;
       globals.profile['gender'] = globals.ungender_[_dropGender] ?? 0;
       globals.profile['date_of_birth'] = date.text ?? null;
+      globals.cv['cv']['cmnd_cccd'] = globals.encrypt.encrypt(cccd.text ?? "");
+      print(globals.cv['cv']['cmnd_cccd']);
     });
   }
 
   setDefault() {
     setState(() {
       name.text = globals.profile['name'] ?? '';
+
+      print(globals.cv['cv']['cmnd_cccd']);
+      if (globals.cv['cv']['cmnd_cccd'] == '12436666') {
+        cccd.text = 'ex: 12436666';
+      } else {
+        try {
+          cccd.text =
+              globals.encrypt.decrypt(globals.cv['cv']['cmnd_cccd']) ?? '';
+        } catch (e) {
+          print(e);
+          cccd.text = 'ex: 12436666';
+        }
+      }
+
       age.text = '${globals.profile['age']}' ?? '';
       _dropGender = globals.gender_[globals.profile['gender']] ?? '';
       date.text = globals.profile['date_of_birth'] ?? '';
@@ -51,6 +68,7 @@ class _Profile extends State<Profile> {
     name.dispose();
     age.dispose();
     date.dispose();
+    cccd.dispose();
     super.dispose();
   }
 
@@ -188,6 +206,24 @@ class _Profile extends State<Profile> {
                     ),
                   ]),
                   SizedBox(
+                    height: 30,
+                  ),
+                  Row(children: [
+                    Container(
+                      height: 30,
+                      width: 100,
+                      child: Text("CCCD"),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 200,
+                      child: TextFormField(
+                        decoration: InputDecoration(hintText: "CCCD"),
+                        controller: cccd,
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
                     height: 20,
                   ),
                   Row(children: [
@@ -279,6 +315,9 @@ class _Profile extends State<Profile> {
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
                           try {
+                            globals.cv['cv']['cmnd_cccd'] =
+                                globals.encrypt.encrypt(cccd.text ?? "");
+                            print(globals.cv['cv']['cmnd_cccd']);
                             var headers = {
                               'Authorization': 'Bearer ${globals.token}',
                               'Content-Type': 'application/json'
@@ -304,6 +343,43 @@ class _Profile extends State<Profile> {
                               print(response.reasonPhrase);
                             }
                           } catch (e) {}
+
+                          // try {
+                          //   var headers = {
+                          //     'Authorization': 'Bearer ${globals.token}',
+                          //     'Content-Type': 'application/json'
+                          //   };
+                          //   Map data = json.decode(json.encode(globals.cv));
+                          //   data['cv'].remove('cv_id');
+                          //   data['cv'].remove('user');
+
+                          //   for (final i in data['job_user_info']) {
+                          //     data['job_user_info']
+                          //             [data['job_user_info'].indexOf(i)]
+                          //         .remove('cv');
+                          //     data['job_user_info']
+                          //             [data['job_user_info'].indexOf(i)]
+                          //         .remove('img_link');
+                          //     data['job_user_info']
+                          //             [data['job_user_info'].indexOf(i)]
+                          //         .remove('job_user_id');
+                          //   }
+                          //   Map detail = data['cv'];
+                          //   detail['job_user_info'] = data['job_user_info'];
+                          //   var request = http.Request('POST',
+                          //       Uri.parse('http://14.225.254.142:9000/cv'));
+                          //   request.body = json.encode(detail);
+                          //   request.headers.addAll(headers);
+
+                          //   http.StreamedResponse response =
+                          //       await request.send();
+
+                          //   if (response.statusCode == 200) {
+                          //     print(await response.stream.bytesToString());
+                          //   } else {
+                          //     print('Err: ${response.reasonPhrase}');
+                          //   }
+                          // } catch (e) {}
 
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) => MobileScreen(),
