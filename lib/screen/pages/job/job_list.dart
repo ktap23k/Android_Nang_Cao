@@ -83,6 +83,8 @@ class _JobListState extends State<JobList> {
         Map data = json.decode(value)["result"];
         link = 'https://androidtuan.s3.amazonaws.com/${data["source"]}';
         print("link: $link");
+        if (link == 'https://androidtuan.s3.amazonaws.com/')
+          link = globals.image_null;
       } else {
         print(response.reasonPhrase);
       }
@@ -213,7 +215,7 @@ class _JobListState extends State<JobList> {
                     height: 120,
                     child: Image(
                       image: NetworkImage(
-                          '${globals.dataRecruiment['result'][index]['image'] ?? globals.avata_null}'),
+                          '${globals.dataRecruiment['result'][index]['image'] ?? globals.image_null}'),
                     ),
                   ),
                 ),
