@@ -316,7 +316,24 @@ class _Profile extends State<Profile> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     side: BorderSide(color: kPrimaryColor)))),
                         onPressed: () async {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Do you want save?'),
+                              content: const Text(''),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    
                           try {
+                            globals.cv['cv']['cmnd_cccd'] =
+                                globals.encrypt.encrypt(cccd.text ?? "");
+                            print(globals.cv['cv']['cmnd_cccd']);
                             var headers = {
                               'Authorization': 'Bearer ${globals.token}',
                               'Content-Type': 'application/json'
@@ -333,19 +350,28 @@ class _Profile extends State<Profile> {
                             });
                             request.headers.addAll(headers);
 
+
                                       http.StreamedResponse response =
                                           await request.send();
 
-                            if (response.statusCode == 200) {
+
+                                      if (response.statusCode == 200) {
                               print(await response.stream.bytesToString());
                             } else {
                               print(response.reasonPhrase);
                             }
                           } catch (e) {}
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                Setting()));
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => MobileScreen(),
-                          ));
                         },
                         child: Text(
                           "Save",
